@@ -234,7 +234,7 @@ public class Main {
         Simulation sim_cleric = new Simulation(10000, cleric, z9, 5);
         sim_cleric.setupPotions("hp", 3, 25, "mp", 3, 25);
         sim_cleric.exp_mult = 1.65;
-        sim_cleric.run(heal, 70, hlight, 1, null, 1, false, 60);
+//        sim_cleric.run(heal, 70, hlight, 1, null, 1, false, 60);
 //        sim_cleric.run(bless, 1, heal, 60, hlight, 1, false, 60);
 
         Assassin test1 = new Assassin(110, 43);
@@ -249,6 +249,8 @@ public class Main {
         sim_test.setupPotions("hp", 2, 85, "mp", 2, 80);
         sim_test.exp_mult = 1.475;
         //sim_test.run(smoke, 1, pa, 10, null, 1, true, 95);
+
+        UserForm uf = new UserForm();
     }
 
 }
