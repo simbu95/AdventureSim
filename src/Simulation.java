@@ -24,6 +24,7 @@ public class Simulation {
         this.player = player;
         this.enemy = enemy;
         title = enemy.getName();
+        time_to_respawn = getTime_to_respawn();
     }
 
     public Simulation(int simulations, Actor player, Actor enemy, double time_to_respawn) {
@@ -56,6 +57,39 @@ public class Simulation {
                     int setting3, boolean prepare,
                     double prepare_threshold) {
         this.run(skill1, setting1, skill2, setting2, skill3, setting3, prepare, prepare_threshold, Double.MAX_VALUE);
+    }
+
+    public double getTime_to_respawn() {
+        return switch (enemy.name) {
+            case "Devil" -> 5;
+            case "Shax", "Dagon", "Lamia" -> 6;
+            default -> 5;
+        };
+    }
+
+    public void run(String skill1, int lvl1, SkillMod mod1, int setting1, String skill2, int lvl2, SkillMod mod2,
+                    int setting2, String skill3, int lvl3, SkillMod mod3,
+                    int setting3) {
+        run(skill1, lvl1, mod1, setting1, skill2, lvl2, mod2, setting2, skill3, lvl3, mod3, setting3, 0);
+    }
+
+    public void run(String skill1, int lvl1, SkillMod mod1, int setting1, String skill2, int lvl2, SkillMod mod2,
+                    int setting2, String skill3, int lvl3, SkillMod mod3,
+                    int setting3, double reroll) {
+        Player pl = (Player) player;
+        ActiveSkill s1 = pl.getSkill(skill1);
+        s1.setSkill(lvl1, mod1);
+        ActiveSkill s2 = pl.getSkill(skill2);
+        s2.setSkill(lvl2, mod2);
+        ActiveSkill s3;
+        if (!skill3.equals("Prepare")) {
+            s3 = pl.getSkill(skill3);
+            if (s3 != null) s3.setSkill(lvl3, mod3);
+            run(s1, setting1, s2, setting2, s3, setting3, false, 0,
+                    reroll);
+        } else {
+            run(s1, setting1, s2, setting2, null, 0, true, setting3, reroll);
+        }
     }
 
     public void run(ActiveSkill skill1, int setting1, ActiveSkill skill2, int setting2, ActiveSkill skill3,
@@ -113,7 +147,7 @@ public class Simulation {
             status = StatusType.respawn;
             enemy.reroll();
             player.checkAmbush();
-            if (Main.game_version < 1535) {
+            if (Main.game_version < 1535 && reroll >= 1) {
                 while (enemy.getHp_max() >= reroll) {
                     enemy.reroll();
                     delta = time_to_respawn;
@@ -265,7 +299,7 @@ public class Simulation {
                         if (d.dmg > 0) overkill += d.dmg;
                     }
                     double exp_gain = enemy.getExp() * player.getExp_mult();
-                    if(player.lvling) player.increment_exp(exp_gain * exp_mult);
+                    if (player.lvling) player.increment_exp(exp_gain * exp_mult);
                     exp += exp_gain;
                     kills++;
 //                    System.out.println("Enemy killed at " + df2.format(time) + " s");
@@ -564,7 +598,7 @@ public class Simulation {
                             if (d.dmg > 0) overkill += d.dmg;
                         }
                         double exp_gain = enemy.getExp() * player.getExp_mult();
-                        if(player.lvling) player.increment_exp(exp_gain * exp_mult);
+                        if (player.lvling) player.increment_exp(exp_gain * exp_mult);
                         exp += exp_gain;
                     }
                     if (player.getHp() <= 0) {

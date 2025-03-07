@@ -33,6 +33,13 @@ public class Actor {
     protected double base_res;
     protected double base_hit;
     protected double base_speed;
+    protected double base_fire;
+    protected double base_water;
+    protected double base_wind;
+    protected double base_earth;
+    protected double base_light;
+    protected double base_dark;
+    protected double base_exp;
 
     protected double gear_atk;
     protected double gear_def;
@@ -172,19 +179,7 @@ public class Actor {
     }
 
     public void enableSet(String bonus, String quality, int upgrade) {
-        double tier = switch (quality.toLowerCase()) {
-            case "poor" -> 0.5;
-            case "flawed" -> 0.75;
-            case "normal" -> 1;
-            case "good" -> 1.25;
-            case "superior" -> 1.5;
-            case "exceptional" -> 2;
-            case "divine" -> 2.5;
-            case "legendary" -> 3;
-            case "mythic" -> 4;
-            case "godly" -> 5;
-            default -> 1;
-        };
+        double tier = Equipment.multiplier_from_tier(quality);
         switch (bonus.toLowerCase()) {
             case "hit" -> set_hit = 1 + ((5 + upgrade / 2.0) * (0.5 + tier / 2.0)) / 100.0;
             case "magicdmg" -> set_magicdmg = 1 + ((5 + upgrade / 2.0) * (0.5 + tier / 2.0)) / 100.0;
