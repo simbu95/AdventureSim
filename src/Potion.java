@@ -24,7 +24,7 @@ public class Potion {
             cooldown -= time;
         }
         if (cooldown <= 0) {
-            switch (type) {
+            switch (type.toLowerCase()) {
                 case "hp":
                     if (player.getHp() < player.getHp_max() * threshold / 100) {
                         player.setHp(player.getHp() + hp_gain());

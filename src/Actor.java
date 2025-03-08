@@ -25,6 +25,7 @@ public class Actor {
     protected double earth;
     protected double light;
     protected double dark;
+    protected double burn;
 
     protected double base_hp_max;
     protected double base_atk;
@@ -54,6 +55,7 @@ public class Actor {
     protected double gear_light;
     protected double gear_dark;
     protected double gear_crit;
+    protected double gear_burn;
 
     protected double set_hit = 1;
     protected double set_magicdmg = 1;
@@ -82,7 +84,6 @@ public class Actor {
 
     protected double dmg_mult = 1;
     protected double poison_mult = 1;
-    protected double burn_mult = 1;
     protected double fire_mult = 1;
     protected double ailment_res = 1;
     protected int prepare_lvl;
@@ -107,6 +108,8 @@ public class Actor {
     public boolean counter_dodge = false;
 
     protected HashMap<String, PassiveSkill> passives = new HashMap<String, PassiveSkill>();
+    protected HashMap<String, ActiveSkill> active_skills = new HashMap<String, ActiveSkill>();
+    protected HashMap<String, Equipment> equipment = new HashMap<String, Equipment>();
 
     protected PassiveSkill attackBoost = new PassiveSkill("Attack Boost", 0.2, 10, 0.1);
     protected PassiveSkill dropBoost = new PassiveSkill("Drop Boost", 0.15, 10, 0.1);
@@ -272,6 +275,44 @@ public class Actor {
     public void refreshStats() {
         mp_cost_add = 0;
         mp_cost_mult = 1;
+        gear_atk = 0;
+        gear_def = 0;
+        gear_hit = 0;
+        gear_speed = 0;
+        gear_int = 0;
+        gear_res = 0;
+        gear_water = 0;
+        gear_fire = 0;
+        gear_earth = 0;
+        gear_wind = 0;
+        gear_light = 0;
+        gear_dark = 0;
+        gear_crit = 0;
+        gear_burn = 1;
+        for (Map.Entry<String, Equipment> item : equipment.entrySet()) {
+            if (item.getValue().name != null && item.getValue().name != "None") {
+                gear_atk += item.getValue().atk;
+                gear_def += item.getValue().def;
+                gear_hit += item.getValue().hit;
+                gear_speed += item.getValue().speed;
+                gear_int += item.getValue().intel;
+                gear_res += item.getValue().resist;
+                gear_water += item.getValue().water;
+                gear_fire += item.getValue().fire;
+                gear_earth += item.getValue().earth;
+                gear_wind += item.getValue().wind;
+                gear_light += item.getValue().light;
+                gear_dark += item.getValue().dark;
+                gear_crit += item.getValue().crit;
+                gear_burn *= 1 + item.getValue().burn;
+                Set<String> types = item.getValue().resists.keySet();
+                for (String key : types) {
+                    if (item.getValue().resists.get(key) != 0) {
+                        add_resist(key, item.getValue().resists.get(key) / 100);
+                    }
+                }
+            }
+        }
         for (Map.Entry<String, PassiveSkill> passive : passives.entrySet()) {
             if (passive.getValue().enabled) {
                 mp_cost_add += passive.getValue().mp_add;
@@ -288,6 +329,7 @@ public class Actor {
         mp_max = (resist * 3 + intel) * getMp_mult();
         hp = hp_max;
         mp = mp_max;
+        burn = gear_burn;
     }
 
     public void add_resist(String type, double value) {

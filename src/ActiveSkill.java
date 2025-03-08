@@ -444,7 +444,7 @@ public class ActiveSkill {
             double dmg = switch (this.debuff_name) {
                 case "Poison" -> this.debuff_dmg * (attacker.getIntel() + attacker.getAtk()) * attacker.poison_mult;
                 case "Burn" ->
-                        this.debuff_dmg * (attacker.getIntel() / 10 + attacker.getFire() / 5) * (1 - defender.fire_res) * attacker.burn_mult;
+                        this.debuff_dmg * (attacker.getIntel() / 10 + attacker.getFire() / 5) * (1 - defender.fire_res) * attacker.burn;
                 default -> 0;
             };
             defender.debuffs.add(new Debuff(this.debuff_name, duration, dmg, debuff_effect));

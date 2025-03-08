@@ -1,3 +1,5 @@
+import java.util.HashMap;
+
 public class Equipment {
     String name;
     String quality;
@@ -14,20 +16,21 @@ public class Equipment {
     double earth = 0;
     double dark = 0;
     double light = 0;
-    double fire_res = 0;
-    double water_res = 0;
-    double wind_res = 0;
-    double earth_res = 0;
-    double dark_res = 0;
-    double light_res = 0;
-    double phys_res = 0;
-    double magic_res = 0;
     double burn = 0;
     double crit = 0;
     double stun = 0;
+    HashMap <String, Double> resists = new HashMap<>();
 
     public Equipment() {
         name = "None";
+        resists.put("Physical", 0.0);
+        resists.put("Magic", 0.0);
+        resists.put("Fire", 0.0);
+        resists.put("Water", 0.0);
+        resists.put("Wind", 0.0);
+        resists.put("Earth", 0.0);
+        resists.put("Light", 0.0);
+        resists.put("Dark", 0.0);
     }
 
     public void setEquipment(String name, String quality, int upgrade) {
@@ -72,94 +75,100 @@ public class Equipment {
             case "Leather Chest" -> setStats(0, 12, 0, 6, 0, 0);
             case "Iron Helmet" -> {
                 setStats(0, 11, 0, 6, -6, -2);
-                setResists(1.5, 0, 0, 0, 0, 0, 0, 0);
+                setResist("Physical", 1.5);
             }
             case "Iron Bracers" -> {
                 setStats(0, 5, 0, 4, 6, -4);
-                setResists(1.5, 0, 0, 0, 0, 0, 0, 0);
+                setResist("Physical", 1.5);
             }
             case "Iron Pants" -> {
                 setStats(0, 9, 0, 6, 0, -6);
-                setResists(1.5, 0, 0, 0, 0, 0, 0, 0);
+                setResist("Physical", 1.5);
             }
             case "Iron Boots" -> {
                 setStats(0, 4, 0, 4, 0, 2);
             }
             case "Iron Chest" -> {
                 setStats(0, 20, 0, 8, -6, -6);
-                setResists(5, 0, 0, 0, 0, 0, 0, 0);
+                setResist("Physical", 5);
             }
             case "Blazing Helmet" -> {
                 setStats(0, 4, 2, 8, 0, 0);
-                setResists(0, 0, 4, -2, 0, 0, 0, 0);
+                setResist("Fire", 4);
+                setResist("Water", -2);
             }
             case "Blazing Bracers" -> {
                 setStats(0, 0, 6, 0, 6, 0);
                 setAttribute("Fire", 60);
-                setResists(0, 0, 0, -4, 0, 0, 0, 0);
+                setResist("Water", -4);
             }
             case "Blazing Pants" -> {
                 setStats(0, 6, 2, 10, 0, 0);
                 setAttribute("Fire", 20);
-                setResists(0, 0, 2, 0, 0, 0, 0, 0);
+                setResist("Fire", 2);
             }
             case "Blazing Boots" -> {
                 setStats(0, 4, 0, 4, 0, 2);
                 setAttribute("Fire", 10);
-                setResists(0, 0, 2, 0, 0, 0, 0, 0);
+                setResist("Fire", 2);
             }
             case "Blazing Chest" -> {
                 setStats(0, 8, 4, 14, 0, 0);
                 setAttribute("Fire", 30);
-                setResists(0, 0, 6, -6, 0, 0, 0, 0);
+                setResist("Fire", 6);
+                setResist("Water", -6);
             }
             case "Windy Helmet" -> {
                 setStats(0, 6, 0, 6, 2, 0);
-                setResists(0, 0, -2, 0, 4, 0, 0, 0);
+                setResist("Wind", 4);
+                setResist("Fire", -2);
             }
             case "Windy Bracers" -> {
                 setStats(0, 0, 0, 0, 12, 0);
                 setAttribute("Wind", 60);
-                setResists(0, 0, -4, 0, 0, 0, 0, 0);
+                setResist("Fire", -4);
             }
             case "Windy Pants" -> {
                 setStats(0, 10, 0, 6, 2, 0);
                 setAttribute("Wind", 20);
-                setResists(0, 0, 2, 0, 0, 0, 0, 0);
+                setResist("Wind", 2);
             }
             case "Windy Boots" -> {
                 setStats(0, 2, 0, 0, 2, 12);
                 setAttribute("Wind", 10);
-                setResists(0, 0, 0, 0, 2, 0, 0, 0);
+                setResist("Wind", 2);
             }
             case "Windy Chest" -> {
                 setStats(0, 14, 0, 8, 4, 0);
                 setAttribute("Wind", 30);
-                setResists(0, 0, -6, 0, 6, 0, 0, 0);
+                setResist("Wind", 6);
+                setResist("Fire", -6);
             }
             case "Dark Helmet" -> {
                 setStats(0, 6, 0, 6, 2, 0);
-                setResists(0, 0, 0, 0, 0, 0, -2, 4);
+                setResist("Dark", 4);
+                setResist("Light", -2);
             }
             case "Dark Bracers" -> {
                 setStats(6, 0, 0, 0, 6, 0);
                 setAttribute("Dark", 60);
-                setResists(0, 0, 0, 0, 0, 0, -4, 0);
+                setResist("Light", -4);
             }
             case "Dark Pants" -> {
                 setStats(2, 10, 0, 6, 0, 0);
                 setAttribute("Dark", 20);
-                setResists(0, 0, 0, 0, 0, 0, 0, 2);
+                setResist("Dark", 2);
             }
             case "Dark Boots" -> {
                 setStats(2, 2, 0, 0, 0, 12);
                 setAttribute("Dark", 10);
-                setResists(0, 0, 0, 0, 0, 0, 0, 2);
+                setResist("Dark", 2);
             }
             case "Dark Chest" -> {
                 setStats(4, 14, 0, 8, 0, 0);
                 setAttribute("Dark", 30);
-                setResists(0, 0, 0, 0, 0, 0, -6, 6);
+                setResist("Dark", 6);
+                setResist("Light", -6);
             }
         }
     }
@@ -198,17 +207,8 @@ public class Equipment {
         }
     }
 
-    public void setResists(double phys, double magic, double fire, double water, double wind, double earth,
-                           double light, double dark) {
-        double mult = multiplier(quality, upgrade, 2);
-        phys_res = phys * mult;
-        magic_res = magic * mult;
-        fire_res = fire * mult;
-        water_res = water * mult;
-        wind_res = wind * mult;
-        earth_res = earth * mult;
-        light_res = light * mult;
-        dark_res = dark * mult;
+    public void setResist(String type, double value) {
+        resists.put(type, value * multiplier(quality, upgrade, 2));
     }
 
     public static double multiplier(String quality, int upgrade, int scaling_type) {

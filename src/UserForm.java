@@ -4,10 +4,11 @@ import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Vector;
 
 public class UserForm extends JFrame {
     private JPanel rootPanel;
-    private JComboBox playerClass;
+    private JComboBox PlayerClass;
     private JSpinner ML;
     private JSpinner CL;
     private JLabel ClassLabel;
@@ -58,7 +59,7 @@ public class UserForm extends JFrame {
     private JComboBox Accessory2_name;
     private JComboBox Accessory2_tier;
     private JSpinner Accessory2_lvl;
-    private JComboBox Neck_name;
+    private JComboBox Necklace_name;
     private JComboBox Necklace_tier;
     private JSpinner Necklace_lvl;
     private JTextArea Result;
@@ -76,13 +77,23 @@ public class UserForm extends JFrame {
     private JComboBox GameVersion;
     private JSpinner Reroll;
     private JSpinner Milestone;
+    private JSpinner Crafting_lvl;
+    private JSpinner Alchemy_lvl;
     private JButton Run;
     private JCheckBox SetSetup;
+    private JCheckBox SetupInfo;
     GridBagConstraints gbc = new GridBagConstraints();
 
+    public Player player;
+    public Enemy enemy;
+    public Simulation simulation;
+
     public UserForm() {
+        player = new Player();
+        enemy = new Enemy("Devil");
+        simulation = new Simulation();
         rootPanel = new JPanel();
-        this.setContentPane(rootPanel);
+//        this.setContentPane(rootPanel);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         rootPanel.setLayout(new GridBagLayout());
         CL = new JSpinner(new SpinnerNumberModel(62, 0, 1000, 1));
@@ -118,20 +129,20 @@ public class UserForm extends JFrame {
         gbc.gridx = 1;
         gbc.gridy = 1;
         rootPanel.add(MLLabel, gbc);
-        playerClass = new JComboBox();
+        PlayerClass = new JComboBox();
         final DefaultComboBoxModel defaultComboBoxModel1 = new DefaultComboBoxModel();
         defaultComboBoxModel1.addElement("Sniper");
         defaultComboBoxModel1.addElement("Assassin");
         defaultComboBoxModel1.addElement("Pyromancer");
         defaultComboBoxModel1.addElement("Cleric");
-        playerClass.setModel(defaultComboBoxModel1);
+        PlayerClass.setModel(defaultComboBoxModel1);
         gbc = new GridBagConstraints();
         gbc.gridx = 3;
         gbc.gridy = 0;
         gbc.gridwidth = 2;
         gbc.anchor = GridBagConstraints.WEST;
         gbc.fill = GridBagConstraints.HORIZONTAL;
-        rootPanel.add(playerClass, gbc);
+        rootPanel.add(PlayerClass, gbc);
         final JLabel label1 = new JLabel();
         label1.setText("Potion setup:");
         gbc = new GridBagConstraints();
@@ -867,20 +878,20 @@ public class UserForm extends JFrame {
         gbc.gridy = 22;
         gbc.anchor = GridBagConstraints.WEST;
         rootPanel.add(label14, gbc);
-        Neck_name = new JComboBox();
+        Necklace_name = new JComboBox();
         final DefaultComboBoxModel defaultComboBoxModel27 = new DefaultComboBoxModel();
         defaultComboBoxModel27.addElement("None");
         defaultComboBoxModel27.addElement("Metal Necklace");
         defaultComboBoxModel27.addElement("Bronze Necklace");
-        Neck_name.setModel(defaultComboBoxModel27);
-        Neck_name.setSelectedIndex(1);
+        Necklace_name.setModel(defaultComboBoxModel27);
+        Necklace_name.setSelectedIndex(1);
         gbc = new GridBagConstraints();
         gbc.gridx = 2;
         gbc.gridy = 22;
         gbc.gridwidth = 3;
         gbc.anchor = GridBagConstraints.WEST;
         gbc.fill = GridBagConstraints.HORIZONTAL;
-        rootPanel.add(Neck_name, gbc);
+        rootPanel.add(Necklace_name, gbc);
         Necklace_tier = new JComboBox();
         final DefaultComboBoxModel defaultComboBoxModel28 = new DefaultComboBoxModel();
         defaultComboBoxModel28.addElement("Poor");
@@ -924,7 +935,7 @@ public class UserForm extends JFrame {
         Stats = new JTextArea();
         Stats.setEditable(false);
         Stats.setMinimumSize(new Dimension(1, 300));
-        Stats.setText("HP = 5000\nMP = 3000\nAtk = 1000");
+        Stats.setText("Stats will be shown after simulation");
         gbc = new GridBagConstraints();
         gbc.gridx = 1;
         gbc.gridy = 23;
@@ -1057,8 +1068,26 @@ public class UserForm extends JFrame {
         gbc.gridx = 7;
         gbc.gridy = 2;
         rootPanel.add(label22, gbc);
-        Simulations = new JSpinner(new SpinnerNumberModel(1000, 1, 10000, 100));
-        Simulations.setToolTipText("Maximum value 10000");
+        Simulations = new JSpinner(new SpinnerNumberModel(1000, 1, 100000, 1) {
+            @Override
+            public Object getNextValue() {
+                Object nextValue = super.getValue();
+                int x = Integer.parseInt(nextValue.toString()) * 10;
+                if (x > 100000) x = 100000;
+                //Object o = x;
+                return x;
+            }
+
+            @Override
+            public Object getPreviousValue() {
+                Object nextValue = super.getValue();
+                int x = Integer.parseInt(nextValue.toString()) / 10;
+                if (x < 1) x = 1;
+                //Object o = x;
+                return x;
+            }
+        });
+        Simulations.setToolTipText("Maximum value 100000");
         gbc = new GridBagConstraints();
         gbc.gridx = 7;
         gbc.gridy = 3;
@@ -1112,6 +1141,39 @@ public class UserForm extends JFrame {
         gbc.anchor = GridBagConstraints.WEST;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         rootPanel.add(Milestone, gbc);
+        final JLabel label26 = new JLabel();
+        label26.setText("Crafting lvl:");
+        gbc = new GridBagConstraints();
+        gbc.gridx = 7;
+        gbc.gridy = 10;
+        rootPanel.add(label26, gbc);
+        Crafting_lvl = new JSpinner(new SpinnerNumberModel(22, 0, 100, 1));
+        gbc = new GridBagConstraints();
+        gbc.gridx = 7;
+        gbc.gridy = 11;
+        gbc.anchor = GridBagConstraints.WEST;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        rootPanel.add(Crafting_lvl, gbc);
+        final JLabel label27 = new JLabel();
+        label27.setText("Alchemy lvl:");
+        gbc = new GridBagConstraints();
+        gbc.gridx = 7;
+        gbc.gridy = 12;
+        rootPanel.add(label27, gbc);
+        Alchemy_lvl = new JSpinner(new SpinnerNumberModel(22, 0, 100, 1));
+        gbc = new GridBagConstraints();
+        gbc.gridx = 7;
+        gbc.gridy = 13;
+        gbc.anchor = GridBagConstraints.WEST;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        rootPanel.add(Alchemy_lvl, gbc);
+        SetupInfo = new JCheckBox();
+        SetupInfo.setSelected(false);
+        SetupInfo.setText("Show setup info in results");
+        gbc = new GridBagConstraints();
+        gbc.gridx = 7;
+        gbc.gridy = 14;
+        rootPanel.add(SetupInfo, gbc);
         Run = new JButton();
         Run.setText("Simulate");
         gbc = new GridBagConstraints();
@@ -1127,6 +1189,10 @@ public class UserForm extends JFrame {
         gbc.gridy = 14;
         gbc.gridwidth = 6;
         rootPanel.add(SetSetup, gbc);
+        JScrollPane Scroll = new JScrollPane(rootPanel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        Scroll.getVerticalScrollBar().setUnitIncrement(16);
+        this.add(Scroll);
+        this.setPreferredSize(new Dimension(700, 1050));
         this.pack();
         this.setVisible(true);
         Save.addActionListener(new ActionListener() {
@@ -1144,13 +1210,51 @@ public class UserForm extends JFrame {
         Run.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                if (Skill1.getSelectedIndex() == 0) {
+                    JOptionPane.showMessageDialog(rootPanel, "You need to setup first active skill", "Warning",
+                            JOptionPane.WARNING_MESSAGE);
+                } else {
+                    Main.game_version = Integer.parseInt(GameVersion.getSelectedItem().toString());
+                    setupPotions();
+                    simulation.alchemy_lvl = (int) Alchemy_lvl.getValue();
+                    simulation.crafting_lvl = (int) Crafting_lvl.getValue();
+                    simulation.milestone_exp_mult = (double) Milestone.getValue() / 100;
+                    player.setCLML((int) CL.getValue(), (int) ML.getValue());
+                    enemy.setEnemy(Enemy.getSelectedItem().toString());
+                    simulation.simulations = (int) Simulations.getValue();
+                    simulation.player = player;
+                    simulation.enemy = enemy;
+                    setupEquipment();
+                    setupPassives();
+                    Stats.setText(player.getAllStats());
+                    simulation.run(Skill1.getSelectedItem().toString(), (int) Skill1_lvl.getValue(),
+                            (SkillMod) Skill1_mod.getSelectedItem(), (int) Skill1_s.getValue(),
+                            Skill2.getSelectedItem().toString(),
+                            (int) Skill2_lvl.getValue(), (SkillMod) Skill2_mod.getSelectedItem(), (int) Skill2_s.getValue(),
+                            Skill3.getSelectedItem().toString(), (int) Skill3_lvl.getValue(),
+                            (SkillMod) Skill3_mod.getSelectedItem(), (int) Skill3_s.getValue(), (int) Reroll.getValue());
+                    if (SetupInfo.isSelected()) {
+                        Result.setText(simulation.full_result);
+                    } else {
+                        Result.setText(simulation.essential_result);
+                    }
+                }
             }
         });
-        playerClass.addActionListener(new ActionListener() {
+        SetupInfo.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                if (SetupInfo.isSelected()) {
+                    Result.setText(simulation.full_result);
+                } else {
+                    Result.setText(simulation.essential_result);
+                }
+            }
+        });
+        PlayerClass.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                selectClass(PlayerClass.getSelectedItem().toString());
             }
         });
         MH_name.addActionListener(new ActionListener() {
@@ -1199,6 +1303,106 @@ public class UserForm extends JFrame {
                 }
             }
         });
+        PlayerClass.setSelectedIndex(0);
     }
 
+    private void selectClass(String name) {
+        player.setClass(name);
+        DefaultComboBoxModel<String> active1 =
+                new DefaultComboBoxModel<>(new Vector<>(player.getAvailableActiveSkills()));
+        DefaultComboBoxModel<String> active2 =
+                new DefaultComboBoxModel<>(new Vector<>(player.getAvailableActiveSkills()));
+        DefaultComboBoxModel<String> active3 =
+                new DefaultComboBoxModel<>(new Vector<>(player.getAvailableActiveSkills()));
+        DefaultComboBoxModel<String> passive1 =
+                new DefaultComboBoxModel<>(new Vector<>(player.getAvailablePassiveSkills()));
+        DefaultComboBoxModel<String> passive2 =
+                new DefaultComboBoxModel<>(new Vector<>(player.getAvailablePassiveSkills()));
+        DefaultComboBoxModel<String> passive3 =
+                new DefaultComboBoxModel<>(new Vector<>(player.getAvailablePassiveSkills()));
+        Skill1.setModel(active1);
+        Skill2.setModel(active2);
+        Skill3.setModel(active3);
+        Pskill1.setModel(passive1);
+        Pskill2.setModel(passive2);
+        Pskill3.setModel(passive3);
+        clearSelections();
+    }
+
+    private void clearSelections() {
+        Skill1.setSelectedIndex(0);
+        Skill2.setSelectedIndex(0);
+        Skill3.setSelectedIndex(0);
+        Pskill1.setSelectedIndex(0);
+        Pskill2.setSelectedIndex(0);
+        Pskill3.setSelectedIndex(0);
+    }
+
+    private void setupPotions() {
+        String type1 = null;
+        String type2 = null;
+        String type3 = null;
+        int tier1 = 0;
+        int tier2 = 0;
+        int tier3 = 0;
+        int threshold1 = 0;
+        int threshold2 = 0;
+        int threshold3 = 0;
+        if (!Potion1.getSelectedItem().toString().equals("None")) {
+            type1 = Potion1.getSelectedItem().toString().substring(0, 2);
+            tier1 = Integer.parseInt(Potion1.getSelectedItem().toString().substring(4));
+            threshold1 = Integer.parseInt(Potion1_t.getValue().toString());
+        }
+        if (!Potion2.getSelectedItem().toString().equals("None")) {
+            type2 = Potion2.getSelectedItem().toString().substring(0, 2);
+            tier2 = Integer.parseInt(Potion2.getSelectedItem().toString().substring(4));
+            threshold2 = Integer.parseInt(Potion2_t.getValue().toString());
+        }
+        if (!Potion3.getSelectedItem().toString().equals("None")) {
+            type3 = Potion3.getSelectedItem().toString().substring(0, 2);
+            tier3 = Integer.parseInt(Potion3.getSelectedItem().toString().substring(4));
+            threshold3 = Integer.parseInt(Potion3_t.getValue().toString());
+        }
+        simulation.setupPotions(type1, tier1, threshold1, type2, tier2, threshold2, type3, tier3, threshold3);
+    }
+
+    private void setupEquipment() {
+        player.equipment.get("MH").setEquipment(MH_name.getSelectedItem().toString(),
+                MH_tier.getSelectedItem().toString(), Integer.parseInt(MH_lvl.getValue().toString()));
+        player.equipment.get("OH").setEquipment(OH_name.getSelectedItem().toString(),
+                OH_tier.getSelectedItem().toString(), Integer.parseInt(OH_lvl.getValue().toString()));
+        player.equipment.get("Helmet").setEquipment(Helmet_name.getSelectedItem().toString() + " Helmet",
+                Helmet_tier.getSelectedItem().toString(), Integer.parseInt(Helmet_lvl.getValue().toString()));
+        player.equipment.get("Chest").setEquipment(Chest_name.getSelectedItem().toString() + " Chest",
+                Chest_tier.getSelectedItem().toString(), Integer.parseInt(Chest_lvl.getValue().toString()));
+        player.equipment.get("Pants").setEquipment(Pants_name.getSelectedItem().toString() + " Pants",
+                Pants_tier.getSelectedItem().toString(), Integer.parseInt(Pants_lvl.getValue().toString()));
+        player.equipment.get("Bracers").setEquipment(Bracer_name.getSelectedItem().toString() + " Bracer",
+                Bracer_tier.getSelectedItem().toString(), Integer.parseInt(Bracer_lvl.getValue().toString()));
+        player.equipment.get("Boots").setEquipment(Boots_name.getSelectedItem().toString() + " Boots",
+                Boots_tier.getSelectedItem().toString(), Integer.parseInt(Boots_lvl.getValue().toString()));
+        player.equipment.get("Accessory1").setEquipment(Accessory1_name.getSelectedItem().toString(),
+                Accessory1_tier.getSelectedItem().toString(), Integer.parseInt(Accessory1_lvl.getValue().toString()));
+        player.equipment.get("Accessory2").setEquipment(Accessory2_name.getSelectedItem().toString(),
+                Accessory2_tier.getSelectedItem().toString(), Integer.parseInt(Accessory2_lvl.getValue().toString()));
+        player.equipment.get("Necklace").setEquipment(Necklace_name.getSelectedItem().toString(),
+                Necklace_tier.getSelectedItem().toString(), Integer.parseInt(Necklace_lvl.getValue().toString()));
+    }
+
+    private void setupPassives() {
+        String[] passives = new String[3];
+        if (!Pskill1.getSelectedItem().toString().equals("None")) {
+            player.setPassiveLvl(Pskill1.getSelectedItem().toString(), Integer.parseInt(Pskill1_lvl.getValue().toString()));
+            passives[0] = Pskill1.getSelectedItem().toString();
+        }
+        if (!Pskill2.getSelectedItem().toString().equals("None")) {
+            player.setPassiveLvl(Pskill2.getSelectedItem().toString(), Integer.parseInt(Pskill2_lvl.getValue().toString()));
+            passives[1] = Pskill2.getSelectedItem().toString();
+        }
+        if (!Pskill3.getSelectedItem().toString().equals("None")) {
+            player.setPassiveLvl(Pskill3.getSelectedItem().toString(), Integer.parseInt(Pskill3_lvl.getValue().toString()));
+            passives[2] = Pskill3.getSelectedItem().toString();
+        }
+        player.enablePassives(passives);
+    }
 }

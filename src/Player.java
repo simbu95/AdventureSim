@@ -1,4 +1,5 @@
-import java.util.Set;
+import java.text.DecimalFormat;
+import java.util.Vector;
 
 public class Player extends Actor {
     ActiveSkill hide = new ActiveSkill("Hide", 1, 0, 0, 0, 5, 0.5, 0.5, Scaling.atk, Element.none, false, false);
@@ -44,6 +45,8 @@ public class Player extends Actor {
             Element.fire, true, false);
     ActiveSkill eblast = new ActiveSkill("Elemental Blast", 1, 117, 143, 1.0, 20, 1.2, 1.2, Scaling.intel,
             Element.magic, false, false);
+    ActiveSkill ma = new ActiveSkill("Magic Arrow", 1, 90, 110, 1, 15, 1, 1, Scaling.intel,
+            Element.magic, false, false);
     ActiveSkill hlight = new ActiveSkill("Holy Light", 1, 112.5, 137.5, 1.0, 25, 1, 1.1, Scaling.resint,
             Element.light, false, false);
     ActiveSkill heal = new ActiveSkill("Heal", 1, 250, 45, 0, 30, 0.8, 1.5, Scaling.atk, Element.none, false,
@@ -55,10 +58,34 @@ public class Player extends Actor {
 
     protected boolean holylight_enabled;
     protected boolean eblast_enabled;
+    DecimalFormat df2 = new DecimalFormat("#.##");
+
+    public Player() {
+        addSkillEffects();
+        addEquipment();
+    }
 
     public Player(String name, int ml, int cl) {
-        this.name = name;
+        setClass(name);
         setCLML(cl, ml);
+        addSkillEffects();
+        addEquipment();
+    }
+
+    public void addEquipment() {
+        equipment.put("Helmet", new Equipment());
+        equipment.put("Chest", new Equipment());
+        equipment.put("Bracers", new Equipment());
+        equipment.put("Pants", new Equipment());
+        equipment.put("Boots", new Equipment());
+        equipment.put("MH", new Equipment());
+        equipment.put("OH", new Equipment());
+        equipment.put("Accessory1", new Equipment());
+        equipment.put("Accessory2", new Equipment());
+        equipment.put("Necklace", new Equipment());
+    }
+
+    public void addSkillEffects() {
         pa.addDebuff("Poison", 3, 0.1);
         smoke.addDebuff("Smoke", 3, 0);
         db.addDebuff("Defense Break", 3, 0.25);
@@ -69,6 +96,20 @@ public class Player extends Actor {
         fpillar1537.addDebuff("Burn", 3, 1);
         explosion.addDebuff("Burn", 3, 1);
         bless.addBuff("Bless", 2, 0.3);
+    }
+
+    public void setClass(String name) {
+        this.name = name;
+        passives.clear();
+        active_skills.clear();
+        phys_res = 0;
+        magic_res = 0;
+        water_res = 0;
+        fire_res = 0;
+        wind_res = 0;
+        earth_res = 0;
+        light_res = 0;
+        dark_res = 0;
         switch (name) {
             case "Assassin" -> {
                 dark_res = 0.5;
@@ -81,6 +122,13 @@ public class Player extends Actor {
                 passives.put("Poison Boost", poisonBoost);
                 passives.put("Defense Boost", defenseBoost);
                 passives.put("Dodge", dodge);
+                active_skills.put("Killing Strike", ks);
+                active_skills.put("Hide", hide);
+                active_skills.put("Dragon Punch", dp);
+                active_skills.put("Poison Attack", pa);
+                active_skills.put("Smoke Screen", smoke);
+                active_skills.put("First Aid", fa);
+                active_skills.put("Prepare", null);
             }
             case "Pyromancer" -> {
                 fire_res = 0.5;
@@ -91,6 +139,16 @@ public class Player extends Actor {
                 passives.put("Casting Boost", castBoost);
                 passives.put("Fire Boost", fireBoost);
                 passives.put("Fire Resist", fireResist);
+                if (Main.game_version >= 1537) {
+                    active_skills.put("Fire Pillar", fpillar);
+                } else {
+                    active_skills.put("Fire Pillar", fpillar1537);
+                }
+                active_skills.put("Fireball", fball);
+                active_skills.put("Explosion", explosion);
+                active_skills.put("Elemental Blast", eblast);
+                active_skills.put("Push Blast", push);
+                active_skills.put("First Aid", fa);
             }
             case "Sniper" -> {
                 wind_res = 0.5;
@@ -104,14 +162,42 @@ public class Player extends Actor {
                 passives.put("HP Regen", hpRegen);
                 passives.put("Concentration", concentration);
                 passives.put("Hit Boost", hitBoost);
+                if (Main.game_version >= 1535) {
+                    active_skills.put("Arrow Rain", ar1535);
+                } else {
+                    active_skills.put("Arrow Rain", ar);
+                }
+                active_skills.put("Sharpshooter", ss);
+                active_skills.put("Mark", mark);
+                active_skills.put("Charge Up", charge);
+                active_skills.put("Defense Break", db);
+                active_skills.put("First Aid", fa);
+                active_skills.put("Prepare", null);
             }
             case "Cleric" -> {
                 passives.put("Int Boost", intBoost);
                 passives.put("Res Boost", resBoost);
                 passives.put("Book Mastery", bookMastery);
                 passives.put("Ailment Res", ailmentRes);
+                active_skills.put("Holy Light", hlight);
+                active_skills.put("Magic Arrow", ma);
+                active_skills.put("Heal", heal);
+                active_skills.put("First Aid", fa);
+                active_skills.put("Bless", bless);
             }
         }
+    }
+
+    public Vector<String> getAvailableActiveSkills() {
+        Vector<String> v = new Vector<>(active_skills.keySet());
+        v.insertElementAt("None", 0);
+        return v;
+    }
+
+    public Vector<String> getAvailablePassiveSkills() {
+        Vector<String> v = new Vector<>(passives.keySet());
+        v.insertElementAt("None", 0);
+        return v;
     }
 
     public ActiveSkill getSkill(String name) {
@@ -264,7 +350,7 @@ public class Player extends Actor {
                 return (getAtk() + getIntel()) * (fireBoost.enabled ? 0.5 + fireBoost.bonus : 0.5) + gear_fire + getEblast();
             }
             default -> {
-                return gear_dark;
+                return gear_fire;
             }
         }
     }
@@ -276,7 +362,7 @@ public class Player extends Actor {
                 return (getAtk() + getIntel()) / -2 + gear_water + getEblast();
             }
             default -> {
-                return gear_dark;
+                return gear_water;
             }
         }
     }
@@ -333,5 +419,61 @@ public class Player extends Actor {
                 return gear_light;
             }
         }
+    }
+
+    public String getAllStats() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("HP = ").append((int) getHp()).append("\n");
+        sb.append("MP = ").append((int) getMp()).append("\n");
+        sb.append("ATK = ").append((int) getAtk()).append(" (").append((int) gear_atk).append(")\n");
+        sb.append("DEF = ").append((int) getDef()).append(" (").append((int) gear_def).append(")\n");
+        sb.append("INT = ").append((int) getIntel()).append(" (").append((int) gear_int).append(")\n");
+        sb.append("RES = ").append((int) getResist()).append(" (").append((int) gear_res).append(")\n");
+        sb.append("HIT = ").append((int) getHit()).append(" (").append((int) (getHit() - base_hit * hit_mult)).append(")\n");
+        sb.append("SPD = ").append((int) getSpeed()).append(" (").append((int) gear_speed).append(")\n\n");
+        if (getWater() != 0) {
+            sb.append("Water = ").append((int) getWater()).append(" (").append((int) gear_water).append(")\n");
+        }
+        if (getFire() != 0) {
+            sb.append("Fire = ").append((int) getFire()).append(" (").append((int) gear_fire).append(")\n");
+        }
+        if (getWind() != 0) {
+            sb.append("Wind = ").append((int) getWind()).append(" (").append((int) gear_wind).append(")\n");
+        }
+        if (getEarth() != 0) {
+            sb.append("Earth = ").append((int) getEarth()).append(" (").append((int) gear_earth).append(")\n");
+        }
+        if (getLight() != 0) {
+            sb.append("Light = ").append((int) getLight()).append(" (").append((int) gear_light).append(")\n");
+        }
+        if (getDark() != 0) {
+            sb.append("Dark = ").append((int) getDark()).append(" (").append((int) gear_dark).append(")\n");
+        }
+        sb.append("\n");
+        if (getPhys_res() != 0) {
+            sb.append("Physical mitigation = ").append(df2.format(getPhys_res() * 100)).append("%\n");
+        }
+        if (getMagic_res() != 0) {
+            sb.append("Magic mitigation = ").append(df2.format(getMagic_res() * 100)).append("%\n");
+        }
+        if (getWater_res() != 0) {
+            sb.append("Water mitigation = ").append(df2.format(getWater_res() * 100)).append("%\n");
+        }
+        if (getFire_res() != 0) {
+            sb.append("Fire mitigation = ").append(df2.format(getFire_res() * 100)).append("%\n");
+        }
+        if (getWind_res() != 0) {
+            sb.append("Wind mitigation = ").append(df2.format(getWind_res() * 100)).append("%\n");
+        }
+        if (getEarth_res() != 0) {
+            sb.append("Earth mitigation = ").append(df2.format(getEarth_res() * 100)).append("%\n");
+        }
+        if (getLight_res() != 0) {
+            sb.append("Light mitigation = ").append(df2.format(getLight_res() * 100)).append("%\n");
+        }
+        if (getDark_res() != 0) {
+            sb.append("Dark mitigation = ").append(df2.format(getDark_res() * 100)).append("%\n");
+        }
+        return sb.toString();
     }
 }

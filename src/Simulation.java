@@ -14,16 +14,20 @@ public class Simulation {
     String title = "Default simulation.";
     int crafting_lvl = 20;
     int alchemy_lvl = 20;
-    double exp_mult = 1;
-    double time_to_respawn = 5;
+    double milestone_exp_mult = 1;
+    double time_to_respawn = -1;
     double hard_dmg_min_detect = 500;
     DecimalFormat df2 = new DecimalFormat("#.##");
+    String full_result = "";
+    String essential_result = "";
+
+    public Simulation() {
+    }
 
     public Simulation(int simulations, Actor player, Actor enemy) {
         this.simulations = simulations;
         this.player = player;
         this.enemy = enemy;
-        title = enemy.getName();
         time_to_respawn = getTime_to_respawn();
     }
 
@@ -31,7 +35,6 @@ public class Simulation {
         this.simulations = simulations;
         this.player = player;
         this.enemy = enemy;
-        title = enemy.getName();
         this.time_to_respawn = time_to_respawn;
     }
 
@@ -80,7 +83,7 @@ public class Simulation {
         ActiveSkill s1 = pl.getSkill(skill1);
         s1.setSkill(lvl1, mod1);
         ActiveSkill s2 = pl.getSkill(skill2);
-        s2.setSkill(lvl2, mod2);
+        if (s2 != null) s2.setSkill(lvl2, mod2);
         ActiveSkill s3;
         if (!skill3.equals("Prepare")) {
             s3 = pl.getSkill(skill3);
@@ -113,31 +116,36 @@ public class Simulation {
         int enemy_hits = 0;
         double healed = 0;
         int kills = 0;
+        title = enemy.getName();
+        if (time_to_respawn == -1) time_to_respawn = getTime_to_respawn();
         if (potion1 != null) potion1.used = 0;
         if (potion2 != null) potion2.used = 0;
         if (potion3 != null) potion3.used = 0;
-        System.out.println();
-        System.out.println(title + " Simulations: " + simulations);
-        StringBuilder sb = new StringBuilder();
-        sb.append(player.getName()).append(" ML/CL ").append(player.getMl()).append("/").append(player.getCl()).append("\n");
-        sb.append("Active Skills: \n").append(skill1.name).append(" lvl ").append(skill1.lvl).append(" ").append(skill1.skillMod).append(" / ").append(setting1).append("\n");
+        StringBuilder result = new StringBuilder();
+        StringBuilder setup = new StringBuilder();
+        setup.append(title).append(" Simulations: ").append(simulations).append("\n");
+        setup.append(player.getName()).append(" ML/CL ").append(player.getMl()).append("/").append(player.getCl()).append("\n");
+        setup.append("Active Skills: \n").append(skill1.name).append(" lvl ").append(skill1.lvl).append(" ").append(skill1.skillMod).append(" / ").append(setting1).append("\n");
         if (skill2 != null)
-            sb.append(skill2.name).append(" lvl ").append(skill2.lvl).append(" ").append(skill2.skillMod).append(" / ").append(setting2).append("\n");
+            setup.append(skill2.name).append(" lvl ").append(skill2.lvl).append(" ").append(skill2.skillMod).append(" / ").append(setting2).append("\n");
         if (skill3 != null)
-            sb.append(skill3.name).append(" lvl ").append(skill3.lvl).append(" ").append(skill3.skillMod).append(" / ").append(setting3).append("\n");
-        sb.append("Passive skills:\n");
+            setup.append(skill3.name).append(" lvl ").append(skill3.lvl).append(" ").append(skill3.skillMod).append(" / ").append(setting3).append("\n");
+        setup.append("Passive skills:\n");
         for (Map.Entry<String, PassiveSkill> passive : player.passives.entrySet()) {
             if (passive.getValue().enabled) {
-                sb.append(passive.getValue().name).append(" ").append(passive.getValue().lvl).append("\n");
+                setup.append(passive.getValue().name).append(" ").append(passive.getValue().lvl).append("\n");
             }
         }
-//        if (prepare) sb.append("Prepare threshold: ").append(prepare_threshold).append("\n");
-//        if (potion1 != null)
-//            sb.append(potion1.type.toUpperCase()).append(" potion tier: ").append(potion1.tier).append(", threshold: ").append(potion1.threshold).append(
-//                    "\n");
-//        if (potion2 != null)
-//            sb.append(potion2.type.toUpperCase()).append(" potion tier: ").append(potion2.tier).append(", threshold: ").append(potion2.threshold).append(
-//                    "\n");
+        if (prepare) setup.append("Prepare threshold: ").append(prepare_threshold).append("\n");
+        if (potion1 != null)
+            setup.append(potion1.type.toUpperCase()).append(" potion tier: ").append(potion1.tier).append(", threshold: ").append(potion1.threshold).append(
+                    "\n");
+        if (potion2 != null)
+            setup.append(potion2.type.toUpperCase()).append(" potion tier: ").append(potion2.tier).append(", threshold: ").append(potion2.threshold).append(
+                    "\n");
+        if (potion3 != null)
+            setup.append(potion3.type.toUpperCase()).append(" potion tier: ").append(potion3.tier).append(", threshold: ").append(potion3.threshold).append(
+                    "\n");
         player.refreshStats();
         for (int i = 0; i < simulations; i++) {
             double time = 0;
@@ -214,7 +222,7 @@ public class Simulation {
                     enemyCast.startCast(enemy, player);
                     if (player.name.equals("Assassin1") &&
                             enemy.name.equals("Lamia") && enemyCast.name.equals("Explosion") && enemy.getHp() > enemy.getHp_max() * 0.4) {
-                        enemy.reroll();
+                        enemy.reroll(); //todo: add user option to run away from lamia explosion
                         player.casting = null;
                         status = StatusType.rerolling;
                         break;
@@ -299,7 +307,7 @@ public class Simulation {
                         if (d.dmg > 0) overkill += d.dmg;
                     }
                     double exp_gain = enemy.getExp() * player.getExp_mult();
-                    if (player.lvling) player.increment_exp(exp_gain * exp_mult);
+                    if (player.lvling) player.increment_exp(exp_gain * milestone_exp_mult);
                     exp += exp_gain;
                     kills++;
 //                    System.out.println("Enemy killed at " + df2.format(time) + " s");
@@ -356,69 +364,70 @@ public class Simulation {
 
         }
 
-        sb.append("Exp/h: ").append((int) (exp * exp_mult / (total_time + death_time) * 3600)).append(" (").append(df2.format(exp_mult * 100)).append(
+        result.append("Exp/h: ").append((int) (exp * milestone_exp_mult / (total_time + death_time) * 3600)).append(" (").append(df2.format(milestone_exp_mult * 100)).append(
                 "%)\n");
 //        sb.append("Exp/h without milestones: ").append((int) (exp / (total_time + death_time) * 3600)).append("\n");
         if (potion1 != null) {
-            sb.append(potion1.type.toUpperCase()).append(" potion tier: ").append(potion1.tier).append(", used: ").append(potion1.used).append(", per hour: ").append(df2.format(potion1.used / (total_time + death_time) * 3600)).append(
+            result.append(potion1.type.toUpperCase()).append(" potion tier: ").append(potion1.tier).append(", used: ").append(potion1.used).append(", per hour: ").append(df2.format(potion1.used / (total_time + death_time) * 3600)).append(
                     "\n");
             crafting_time += potion1.craft_time(crafting_lvl, alchemy_lvl) * potion1.used;
         }
         if (potion2 != null) {
-            sb.append(potion2.type.toUpperCase()).append(" potion tier: ").append(potion2.tier).append(", used: ").append(potion2.used).append(", per hour: ").append(df2.format(potion2.used / (total_time + death_time) * 3600)).append(
+            result.append(potion2.type.toUpperCase()).append(" potion tier: ").append(potion2.tier).append(", used: ").append(potion2.used).append(", per hour: ").append(df2.format(potion2.used / (total_time + death_time) * 3600)).append(
                     "\n");
             crafting_time += potion2.craft_time(crafting_lvl, alchemy_lvl) * potion2.used;
         }
         if (potion3 != null) {
-            sb.append(potion3.type.toUpperCase()).append(" potion tier: ").append(potion3.tier).append(", used: ").append(potion3.used).append(", per hour: ").append(df2.format(potion3.used / (total_time + death_time) * 3600)).append(
+            result.append(potion3.type.toUpperCase()).append(" potion tier: ").append(potion3.tier).append(", used: ").append(potion3.used).append(", per hour: ").append(df2.format(potion3.used / (total_time + death_time) * 3600)).append(
                     "\n");
             crafting_time += potion3.craft_time(crafting_lvl, alchemy_lvl) * potion3.used;
         }
         if (crafting_time > 0) {
             //sb.append("Crafting time: ").append((int) crafting_time).append(" seconds \n");
-            sb.append("Effective exp/h: ").append((int) (exp * exp_mult / (total_time + crafting_time + death_time) * 3600)).append("\n");
+            result.append("Effective exp/h: ").append((int) (exp * milestone_exp_mult / (total_time + crafting_time + death_time) * 3600)).append("\n");
         }
         if (prepare) {
-            sb.append("Time preparing %: ").append(df2.format(prepare_time / total_time * 100)).append("% " +
+            result.append("Time preparing %: ").append(df2.format(prepare_time / total_time * 100)).append("% " +
                     "\n");
         }
         if (death_time > 0) {
-            sb.append("Time dead %: ").append(df2.format(death_time / (total_time + death_time) * 100)).append("% \n");
+            result.append("Time dead %: ").append(df2.format(death_time / (total_time + death_time) * 100)).append("% \n");
             //sb.append("Spawning time: ").append(df2.format(respawning_time)).append("s \n");
-            sb.append("Exp/h without deaths: ").append((int) (exp * exp_mult / (total_time - ignore_deaths) * 3600)).append(
+            result.append("Exp/h without deaths: ").append((int) (exp * milestone_exp_mult / (total_time - ignore_deaths) * 3600)).append(
                     "\n");
         }
-        sb.append("Kills/h without deaths: ").append(df2.format(kills / (total_time - ignore_deaths) * 3600)).append(
+        result.append("Kills/h without deaths: ").append(df2.format(kills / (total_time - ignore_deaths) * 3600)).append(
                 "\n");
-        sb.append("Min time: ").append(df2.format(min_time)).append("s \n");
-        sb.append("Max time: ").append(df2.format(max_time)).append("s \n");
-        sb.append("Average time to kill + respawn: ").append(df2.format(total_time / kills)).append("s \n");
-        sb.append("Min skill casts: ").append(min_casts).append(" \n");
-        sb.append("Max skill casts: ").append(max_casts).append(" \n");
-        sb.append("Average skill casts: ").append(df2.format((double) total_casts / kills)).append(" \n");
-        sb.append("Average Overkill: ").append(df2.format(overkill / kills)).append(" \n");
-        sb.append("Average hard dmg: ").append(df2.format(hard_dmg / hard_hits)).append(" \n");
+        result.append("Min time: ").append(df2.format(min_time)).append("s \n");
+        result.append("Max time: ").append(df2.format(max_time)).append("s \n");
+        result.append("Average time to kill + respawn: ").append(df2.format(total_time / kills)).append("s \n");
+        result.append("Min skill casts: ").append(min_casts).append(" \n");
+        result.append("Max skill casts: ").append(max_casts).append(" \n");
+        result.append("Average skill casts: ").append(df2.format((double) total_casts / kills)).append(" \n");
+        result.append("Average Overkill: ").append(df2.format(overkill / kills)).append(" \n");
+        result.append("Average hard dmg: ").append(df2.format(hard_dmg / hard_hits)).append(" \n");
         if (skill1 != null && skill1.hit > 0) {
-            sb.append(skill1.name).append(" average hit chance: ").append(df2.format(skill1.average_hit_chance())).append(" \n");
+            result.append(skill1.name).append(" average hit chance: ").append(df2.format(skill1.average_hit_chance())).append(" \n");
         }
         if (skill2 != null && skill2.hit > 0) {
-            sb.append(skill2.name).append(" average hit chance: ").append(df2.format(skill2.average_hit_chance())).append(" \n");
+            result.append(skill2.name).append(" average hit chance: ").append(df2.format(skill2.average_hit_chance())).append(" \n");
         }
         if (skill3 != null && skill3.hit > 0) {
-            sb.append(skill3.name).append(" average hit chance: ").append(df2.format(skill3.average_hit_chance())).append(" \n");
+            result.append(skill3.name).append(" average hit chance: ").append(df2.format(skill3.average_hit_chance())).append(" \n");
         }
         if (enemy_hits > 0) {
-            sb.append("Average enemy dmg: ").append(df2.format(enemy_dmg / enemy_hits)).append(" \n");
+            result.append("Average enemy dmg: ").append(df2.format(enemy_dmg / enemy_hits)).append(" \n");
         }
         if (healed > 0) {
-            sb.append("Average heal per fight: ").append(df2.format(healed / kills)).append(" \n");
+            result.append("Average heal per fight: ").append(df2.format(healed / kills)).append(" \n");
         }
         if (enemy.skills != null) {
             for (ActiveSkill s : enemy.skills) {
 //                sb.append(s.name).append(" used with smoke: ").append(df2.format((double) s.used_debuffed / s.used_in_rotation * 100.0)).append("% \n");
             }
         }
-        System.out.println(sb);
+        essential_result = result.toString();
+        full_result = setup + result.toString();
     }
 
     /**
@@ -598,7 +607,7 @@ public class Simulation {
                             if (d.dmg > 0) overkill += d.dmg;
                         }
                         double exp_gain = enemy.getExp() * player.getExp_mult();
-                        if (player.lvling) player.increment_exp(exp_gain * exp_mult);
+                        if (player.lvling) player.increment_exp(exp_gain * milestone_exp_mult);
                         exp += exp_gain;
                     }
                     if (player.getHp() <= 0) {
@@ -629,7 +638,7 @@ public class Simulation {
                 max_casts = Math.max(max_casts, casts);
             }
 
-            sb.append("Exp/h: ").append((int) (exp * exp_mult / (total_time + death_time + crafting_time) * 3600)).append("\n");
+            sb.append("Exp/h: ").append((int) (exp * milestone_exp_mult / (total_time + death_time + crafting_time) * 3600)).append("\n");
 //        sb.append("Exp/h without milestones: ").append((int) (exp / (total_time + death_time) * 3600)).append("\n");
             if (potion1 != null) {
                 sb.append(potion1.type.toUpperCase()).append(" potion tier: ").append(potion1.tier).append(", used: ").append(potion1.used).append(", per hour: ").append(df2.format(potion1.used / (total_time + death_time) * 3600)).append(
@@ -650,7 +659,7 @@ public class Simulation {
             sb.append("Combat time: ").append((int) total_time).append(" seconds \n");
             if (crafting_time > 0) {
                 sb.append("Crafting time: ").append((int) crafting_time).append(" seconds \n");
-                sb.append("Effective exp/h: ").append((int) (exp * exp_mult / (total_time + crafting_time + death_time) * 3600)).append("\n");
+                sb.append("Effective exp/h: ").append((int) (exp * milestone_exp_mult / (total_time + crafting_time + death_time) * 3600)).append("\n");
             }
             if (prepare) {
                 sb.append("Time preparing %: ").append(df2.format(prepare_time / total_time * 100)).append("% " +

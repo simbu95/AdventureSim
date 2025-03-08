@@ -25,7 +25,13 @@ public class Enemy extends Actor {
     ActiveSkill poison = new ActiveSkill("Poison Attack", 1, 36, 44, 1, 0, 0.4, 0.9, Scaling.atk, Element.phys,
             false, false);
 
+    public Enemy() {}
+
     public Enemy(String name) {
+        setEnemy(name);
+    }
+
+    public void setEnemy(String name) {
         this.name = name;
         switch (name) {
             case "Dagon" -> {
@@ -97,7 +103,6 @@ public class Enemy extends Actor {
                 skills.add(slash);
             }
         }
-
         reroll();
     }
 
