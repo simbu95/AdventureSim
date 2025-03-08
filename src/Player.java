@@ -102,18 +102,18 @@ public class Player extends Actor {
         this.name = name;
         passives.clear();
         active_skills.clear();
-        phys_res = 0;
-        magic_res = 0;
-        water_res = 0;
-        fire_res = 0;
-        wind_res = 0;
-        earth_res = 0;
-        light_res = 0;
-        dark_res = 0;
+        base_phys_res = 0;
+        base_magic_res = 0;
+        base_water_res = 0;
+        base_fire_res = 0;
+        base_wind_res = 0;
+        base_earth_res = 0;
+        base_light_res = 0;
+        base_dark_res = 0;
         switch (name) {
             case "Assassin" -> {
-                dark_res = 0.5;
-                light_res = -0.5;
+                base_dark_res = 0.5;
+                base_light_res = -0.5;
                 passives.put("Attack Boost", attackBoost);
                 passives.put("Drop Boost", dropBoost);
                 passives.put("Dagger Mastery", daggerMastery);
@@ -131,8 +131,8 @@ public class Player extends Actor {
                 active_skills.put("Prepare", null);
             }
             case "Pyromancer" -> {
-                fire_res = 0.5;
-                water_res = -0.5;
+                base_fire_res = 0.5;
+                base_water_res = -0.5;
                 passives.put("Int Boost", intBoost);
                 passives.put("Res Boost", resBoost);
                 passives.put("Wand Mastery", wandMastery);
@@ -151,8 +151,8 @@ public class Player extends Actor {
                 active_skills.put("First Aid", fa);
             }
             case "Sniper" -> {
-                wind_res = 0.5;
-                fire_res = -0.5;
+                base_wind_res = 0.5;
+                base_fire_res = -0.5;
                 passives.put("Attack Boost", attackBoost);
                 passives.put("Drop Boost", dropBoost);
                 passives.put("Bow Mastery", bowMastery);

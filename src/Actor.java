@@ -41,6 +41,14 @@ public class Actor {
     protected double base_light;
     protected double base_dark;
     protected double base_exp;
+    protected double base_water_res;
+    protected double base_fire_res;
+    protected double base_wind_res;
+    protected double base_earth_res;
+    protected double base_light_res;
+    protected double base_dark_res;
+    protected double base_phys_res;
+    protected double base_magic_res;
 
     protected double gear_atk;
     protected double gear_def;
@@ -231,6 +239,22 @@ public class Actor {
     }
 
     public void enablePassives(String[] names) {
+        hp_mult = 1;
+        mp_mult = 1;
+        atk_mult = 1;
+        int_mult = 1;
+        def_mult = 1;
+        res_mult = 1;
+        hit_mult = 1;
+        speed_mult = 1;
+        dodge_mult = 1;
+        dmg_mult = 1;
+        poison_mult = 1;
+        fire_mult = 1;
+        ailment_res = 1;
+        exp_mult = 1;
+        cast_speed_mult = 1;
+        delay_speed_mult = 1;
         Set<String> keys = passives.keySet();
         for (String key : keys) {
             passives.get(key).enabled = false;
@@ -289,6 +313,14 @@ public class Actor {
         gear_dark = 0;
         gear_crit = 0;
         gear_burn = 1;
+        phys_res = base_phys_res;
+        magic_res = base_magic_res;
+        water_res = base_water_res;
+        fire_res = base_fire_res;
+        earth_res = base_earth_res;
+        wind_res = base_wind_res;
+        light_res = base_light_res;
+        dark_res = base_dark_res;
         for (Map.Entry<String, Equipment> item : equipment.entrySet()) {
             if (item.getValue().name != null && item.getValue().name != "None") {
                 gear_atk += item.getValue().atk;
@@ -334,6 +366,12 @@ public class Actor {
 
     public void add_resist(String type, double value) {
         switch (type) {
+            case "Physical" -> {
+                phys_res = 1.0 - (1.0 - phys_res) * (1.0 - value);
+            }
+            case "Magic" -> {
+                magic_res = 1.0 - (1.0 - magic_res) * (1.0 - value);
+            }
             case "Fire" -> {
                 fire_res = 1.0 - (1.0 - fire_res) * (1.0 - value);
             }

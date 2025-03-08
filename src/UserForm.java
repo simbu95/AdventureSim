@@ -1226,7 +1226,6 @@ public class UserForm extends JFrame {
                     simulation.enemy = enemy;
                     setupEquipment();
                     setupPassives();
-                    Stats.setText(player.getAllStats());
                     simulation.run(Skill1.getSelectedItem().toString(), (int) Skill1_lvl.getValue(),
                             (SkillMod) Skill1_mod.getSelectedItem(), (int) Skill1_s.getValue(),
                             Skill2.getSelectedItem().toString(),
@@ -1238,6 +1237,7 @@ public class UserForm extends JFrame {
                     } else {
                         Result.setText(simulation.essential_result);
                     }
+                    Stats.setText(player.getAllStats());
                 }
             }
         });
@@ -1377,7 +1377,7 @@ public class UserForm extends JFrame {
                 Chest_tier.getSelectedItem().toString(), Integer.parseInt(Chest_lvl.getValue().toString()));
         player.equipment.get("Pants").setEquipment(Pants_name.getSelectedItem().toString() + " Pants",
                 Pants_tier.getSelectedItem().toString(), Integer.parseInt(Pants_lvl.getValue().toString()));
-        player.equipment.get("Bracers").setEquipment(Bracer_name.getSelectedItem().toString() + " Bracer",
+        player.equipment.get("Bracers").setEquipment(Bracer_name.getSelectedItem().toString() + " Bracers",
                 Bracer_tier.getSelectedItem().toString(), Integer.parseInt(Bracer_lvl.getValue().toString()));
         player.equipment.get("Boots").setEquipment(Boots_name.getSelectedItem().toString() + " Boots",
                 Boots_tier.getSelectedItem().toString(), Integer.parseInt(Boots_lvl.getValue().toString()));

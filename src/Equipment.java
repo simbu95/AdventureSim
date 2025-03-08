@@ -23,20 +23,14 @@ public class Equipment {
 
     public Equipment() {
         name = "None";
-        resists.put("Physical", 0.0);
-        resists.put("Magic", 0.0);
-        resists.put("Fire", 0.0);
-        resists.put("Water", 0.0);
-        resists.put("Wind", 0.0);
-        resists.put("Earth", 0.0);
-        resists.put("Light", 0.0);
-        resists.put("Dark", 0.0);
+        removeStats();
     }
 
     public void setEquipment(String name, String quality, int upgrade) {
         this.name = name;
         this.quality = quality;
         this.upgrade = upgrade;
+        removeStats();
         switch (name) {
             case "Beech Bow" -> setStats(16, 0, 0, 0, 16, 0);
             case "Oak Bow" -> {
@@ -173,6 +167,29 @@ public class Equipment {
         }
     }
 
+    public void removeStats() {
+        atk = 0;
+        def = 0;
+        intel = 0;
+        resist = 0;
+        hit = 0;
+        speed = 0;
+        fire = 0;
+        water = 0;
+        wind = 0;
+        earth = 0;
+        dark = 0;
+        light = 0;
+        resists.put("Physical", 0.0);
+        resists.put("Magic", 0.0);
+        resists.put("Fire", 0.0);
+        resists.put("Water", 0.0);
+        resists.put("Wind", 0.0);
+        resists.put("Earth", 0.0);
+        resists.put("Light", 0.0);
+        resists.put("Dark", 0.0);
+    }
+
     public void setStats(double atk, double def, double intel, double resist, double hit, double speed) {
         double mult = multiplier(quality, upgrade, 1);
         this.atk = atk * mult;
@@ -217,7 +234,7 @@ public class Equipment {
                 return multiplier_from_tier(quality) * (1 + upgrade * 0.1);
             }
             case 2 -> {
-                return (1 + multiplier_from_tier(quality) * 0.5) * (1 + upgrade * 0.025);
+                return (0.5 + multiplier_from_tier(quality) * 0.5) * (1 + upgrade * 0.025);
             }
             default -> {
                 return 1;
