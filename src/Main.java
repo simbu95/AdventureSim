@@ -82,7 +82,6 @@ public class Main {
         sim3.exp_mult = 1.475;
 //        sim3.run(smoke, 1, pa, 10, null, 65, true, 70);
 
-
         Player disilon_ks = new Player("Assassin", 160, 90);
         disilon_ks.add_stats(37.25, 0, 0, 0, 10.25, 11.25, 0);
         disilon.add_stats(0, 0, 0, 0, 51, 0, 0);
@@ -122,21 +121,20 @@ public class Main {
 //        disilon_ks.add_crit(0.05);
 //        sim3_ks.run(hide, 1, ks, 1, null, 1, true, 75);
 
-
-        Player disilon_s = new Player("Sniper", 168, 75);
+        Player disilon_s = new Player("Sniper", 122, 69);
         disilon_s.add_stats(65.75, 94.25, 28.13, 51.88, 83, 45, 0);
         disilon_s.enableSet("hit", "good", 9);
         disilon_s.setPassiveLvl("Attack Boost", 14);
         disilon_s.setPassiveLvl("Bow Mastery", 12);
         disilon_s.setPassiveLvl("Speed Boost", 12);
         disilon_s.setPassiveLvl("Drop Boost", 19);
-        disilon_s.setPassiveLvl("Concentration", 9);
+        disilon_s.setPassiveLvl("Concentration", 7);
         disilon_s.setPassiveLvl("Ambush", 7);
         disilon_s.setPassiveLvl("Defense Boost", 0);
         disilon_s.setPassiveLvl("HP Regen", 9);
-        disilon_s.setPassiveLvl("Hit Boost", 6);
+        disilon_s.setPassiveLvl("Hit Boost", 5);
         disilon_s.prepare_lvl = 6;
-        disilon_s.enablePassives(new String[]{"Hit Boost", "Drop Boost", "Ambush"});
+        disilon_s.enablePassives(new String[]{"Hit Boost", "Drop Boost", "Concentration"});
         Simulation sim4 = new Simulation(10000, disilon_s, new Enemy("Shax"));
         ss.setSkill(5, SkillMod.powpow);
         ar.setSkill(5, SkillMod.powpow);
@@ -145,7 +143,7 @@ public class Main {
         charge.setSkill(4, SkillMod.powpow);
         sim4.setupPotions("mp", 3, 55, "hp", 3, 65);
         sim4.exp_mult = 1.55;
-//        sim4.run(charge, 1, ss, 1, null, 1, true, 70);
+        sim4.run(charge, 1, ss, 1, null, 1, true, 70);
 
         Player pyro = new Player("Pyromancer", 145, 75);
         pyro.add_stats(0, 0, 50, 0, 0, 0, 45);
@@ -182,23 +180,23 @@ public class Main {
         sim_pyro.exp_mult = 1.825;
 //        sim_pyro.run(fa, 30, fpillar, 10, eblast, 1, false, 90);
 
-        Player cleric = new Player("Cleric", 126, 38);
+        Player cleric = new Player("Cleric", 127, 44);
         cleric.add_stats(28, 118, 41, 89, 12, -9);
         cleric.dark_res = 0.117;
         cleric.setPassiveLvl("Int Boost", 8);
-        cleric.setPassiveLvl("Res Boost", 3);
-        cleric.setPassiveLvl("Book Mastery", 3);
+        cleric.setPassiveLvl("Res Boost", 4);
+        cleric.setPassiveLvl("Book Mastery", 4);
         cleric.setPassiveLvl("Ailment Res", 0);
         cleric.enablePassives(new String[]{"Book Mastery", "Int Boost", "Res Boost"});
         cleric.holylight_enabled = true;
         Simulation sim_cleric = new Simulation(10000, cleric, new Enemy("Devil"));
         sim_cleric.setupPotions("hp", 3, 25, "mp", 3, 25);
         sim_cleric.exp_mult = 1.65;
-//        sim_cleric.run("Heal", 2, SkillMod.powpow, 70, "Holy Light", 3, SkillMod.powpow, 1, "None", 0,
-//                SkillMod.powpow, 1);
+        sim_cleric.run("Heal", 3, SkillMod.powpow, 70, "Holy Light", 3, SkillMod.powpow, 1, "None", 0,
+                SkillMod.powpow, 1);
 //        sim_cleric.run(bless, 1, heal, 60, hlight, 1, false, 60);
 
-        UserForm uf = new UserForm();
+//        UserForm uf = new UserForm();
     }
 
 }

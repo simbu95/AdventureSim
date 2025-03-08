@@ -263,6 +263,9 @@ public class Actor {
         cast_speed_mult *= 1.0 + (concentration.enabled ? 0.25 : 0);
         delay_speed_mult *= 1.0 + (concentration.enabled ? 0.25 : 0);
         hp_regen = hpRegen.enabled ? hpRegen.bonus : 0;
+        if (fireResist.enabled) {
+            add_resist("Fire", fireResist.bonus);
+        }
         refreshStats();
     }
 
@@ -285,6 +288,29 @@ public class Actor {
         mp_max = (resist * 3 + intel) * getMp_mult();
         hp = hp_max;
         mp = mp_max;
+    }
+
+    public void add_resist(String type, double value) {
+        switch (type) {
+            case "Fire" -> {
+                fire_res = 1.0 - (1.0 - fire_res) * (1.0 - value);
+            }
+            case "Water" -> {
+                water_res = 1.0 - (1.0 - water_res) * (1.0 - value);
+            }
+            case "Earth" -> {
+                earth_res = 1.0 - (1.0 - earth_res) * (1.0 - value);
+            }
+            case "Wind" -> {
+                wind_res = 1.0 - (1.0 - wind_res) * (1.0 - value);
+            }
+            case "Light" -> {
+                light_res = 1.0 - (1.0 - light_res) * (1.0 - value);
+            }
+            case "Dark" -> {
+                dark_res = 1.0 - (1.0 - dark_res) * (1.0 - value);
+            }
+        }
     }
 
     public void add_stats(double atk, double def, double intel, double resist, double hit, double speed) {
