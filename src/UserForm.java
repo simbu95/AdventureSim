@@ -87,13 +87,14 @@ public class UserForm extends JFrame {
     public Player player;
     public Enemy enemy;
     public Simulation simulation;
+    public Setup setup;
 
     public UserForm() {
         player = new Player();
         enemy = new Enemy("Devil");
         simulation = new Simulation();
+        setup = new Setup();
         rootPanel = new JPanel();
-//        this.setContentPane(rootPanel);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         rootPanel.setLayout(new GridBagLayout());
         CL = new JSpinner(new SpinnerNumberModel(62, 0, 1000, 1));
@@ -1195,16 +1196,17 @@ public class UserForm extends JFrame {
         this.setPreferredSize(new Dimension(700, 1050));
         this.pack();
         this.setVisible(true);
+        this.setLocationRelativeTo(null);
         Save.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                saveSetup();
             }
         });
         Load.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                loadSetup();
             }
         });
         Run.addActionListener(new ActionListener() {
@@ -1244,11 +1246,7 @@ public class UserForm extends JFrame {
         SetupInfo.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (SetupInfo.isSelected()) {
-                    Result.setText(simulation.full_result);
-                } else {
-                    Result.setText(simulation.essential_result);
-                }
+                showResult();
             }
         });
         PlayerClass.addActionListener(new ActionListener() {
@@ -1404,5 +1402,156 @@ public class UserForm extends JFrame {
             passives[2] = Pskill3.getSelectedItem().toString();
         }
         player.enablePassives(passives);
+    }
+
+    private void saveSetup() {
+        setup.Accessory1_lvl = Integer.parseInt(Accessory1_lvl.getValue().toString());
+        setup.Accessory1_name = Accessory1_name.getSelectedItem().toString();
+        setup.Accessory1_tier = Accessory1_tier.getSelectedItem().toString();
+        setup.Accessory2_lvl = Integer.parseInt(Accessory2_lvl.getValue().toString());
+        setup.Accessory2_name = Accessory2_name.getSelectedItem().toString();
+        setup.Accessory2_tier = Accessory2_tier.getSelectedItem().toString();
+        setup.Alchemy_lvl = Integer.parseInt(Alchemy_lvl.getValue().toString());
+        setup.Boots_lvl = Integer.parseInt(Boots_lvl.getValue().toString());
+        setup.Boots_name = Boots_name.getSelectedItem().toString();
+        setup.Boots_tier = Boots_tier.getSelectedItem().toString();
+        setup.Bracer_lvl = Integer.parseInt(Bracer_lvl.getValue().toString());
+        setup.Bracer_name = Bracer_name.getSelectedItem().toString();
+        setup.Bracer_tier = Bracer_tier.getSelectedItem().toString();
+        setup.Chest_lvl = Integer.parseInt(Chest_lvl.getValue().toString());
+        setup.Chest_name = Chest_name.getSelectedItem().toString();
+        setup.Chest_tier = Chest_tier.getSelectedItem().toString();
+        setup.CL = Integer.parseInt(CL.getValue().toString());
+        setup.Crafting_lvl = Integer.parseInt(Crafting_lvl.getValue().toString());
+        setup.Enemy = Enemy.getSelectedItem().toString();
+        setup.GameVersion = GameVersion.getSelectedItem().toString();
+        setup.Helmet_lvl = Integer.parseInt(Helmet_lvl.getValue().toString());
+        setup.Helmet_name = Helmet_name.getSelectedItem().toString();
+        setup.Helmet_tier = Helmet_tier.getSelectedItem().toString();
+        setup.MH_lvl = Integer.parseInt(MH_lvl.getValue().toString());
+        setup.MH_name = MH_name.getSelectedItem().toString();
+        setup.MH_tier = MH_tier.getSelectedItem().toString();
+        setup.Milestone = Double.parseDouble(Milestone.getValue().toString());
+        setup.ML = Integer.parseInt(ML.getValue().toString());
+        setup.Necklace_lvl = Integer.parseInt(Necklace_lvl.getValue().toString());
+        setup.Necklace_name = Necklace_name.getSelectedItem().toString();
+        setup.Necklace_tier = Necklace_tier.getSelectedItem().toString();
+        setup.OH_lvl = Integer.parseInt(OH_lvl.getValue().toString());
+        setup.OH_name = OH_name.getSelectedItem().toString();
+        setup.OH_tier = OH_tier.getSelectedItem().toString();
+        setup.Pants_lvl = Integer.parseInt(Pants_lvl.getValue().toString());
+        setup.Pants_name = Pants_name.getSelectedItem().toString();
+        setup.Pants_tier = Pants_tier.getSelectedItem().toString();
+        setup.PlayerClass = PlayerClass.getSelectedItem().toString();
+        setup.Potion1 = Potion1.getSelectedItem().toString();
+        setup.Potion1_t = Integer.parseInt(Potion1_t.getValue().toString());
+        setup.Potion2 = Potion2.getSelectedItem().toString();
+        setup.Potion2_t = Integer.parseInt(Potion2_t.getValue().toString());
+        setup.Potion3 = Potion3.getSelectedItem().toString();
+        setup.Potion3_t = Integer.parseInt(Potion3_t.getValue().toString());
+        setup.Pskill1 = Pskill1.getSelectedItem().toString();
+        setup.Pskill1_lvl = Integer.parseInt(Pskill1_lvl.getValue().toString());
+        setup.Pskill2 = Pskill2.getSelectedItem().toString();
+        setup.Pskill2_lvl = Integer.parseInt(Pskill2_lvl.getValue().toString());
+        setup.Pskill3 = Pskill3.getSelectedItem().toString();
+        setup.Pskill3_lvl = Integer.parseInt(Pskill3_lvl.getValue().toString());
+        setup.Reroll = Integer.parseInt(Reroll.getValue().toString());
+        setup.Result_essential = simulation.essential_result;
+        setup.Result_full = simulation.full_result;
+        setup.SetSetup = SetSetup.isSelected();
+        setup.SetupInfo = SetupInfo.isSelected();
+        setup.Simulations = Integer.parseInt(Simulations.getValue().toString());
+        setup.Skill1 = Skill1.getSelectedItem().toString();
+        setup.Skill1_lvl = Integer.parseInt(Skill1_lvl.getValue().toString());
+        setup.Skill1_mod = Skill1_mod.getSelectedItem().toString();
+        setup.Skill1_s = Integer.parseInt(Skill1_s.getValue().toString());
+        setup.Skill2 = Skill2.getSelectedItem().toString();
+        setup.Skill2_lvl = Integer.parseInt(Skill2_lvl.getValue().toString());
+        setup.Skill2_mod = Skill2_mod.getSelectedItem().toString();
+        setup.Skill2_s = Integer.parseInt(Skill2_s.getValue().toString());
+        setup.Skill3 = Skill3.getSelectedItem().toString();
+        setup.Skill3_lvl = Integer.parseInt(Skill3_lvl.getValue().toString());
+        setup.Skill3_mod = Skill3_mod.getSelectedItem().toString();
+        setup.Skill3_s = Integer.parseInt(Skill3_s.getValue().toString());
+        setup.Stats = Stats.getText();
+    }
+
+    private void loadSetup() {
+        Accessory1_lvl.setValue(setup.Accessory1_lvl);
+        Accessory1_name.setSelectedItem(setup.Accessory1_name);
+        Accessory1_tier.setSelectedItem(setup.Accessory1_tier);
+        Accessory2_lvl.setValue(setup.Accessory2_lvl);
+        Accessory2_name.setSelectedItem(setup.Accessory2_name);
+        Accessory2_tier.setSelectedItem(setup.Accessory2_tier);
+        Boots_lvl.setValue(setup.Boots_lvl);
+        Boots_name.setSelectedItem(setup.Boots_name);
+        Boots_tier.setSelectedItem(setup.Boots_tier);
+        Bracer_lvl.setValue(setup.Bracer_lvl);
+        Bracer_name.setSelectedItem(setup.Bracer_name);
+        Bracer_tier.setSelectedItem(setup.Bracer_tier);
+        Chest_lvl.setValue(setup.Chest_lvl);
+        Chest_name.setSelectedItem(setup.Chest_name);
+        Chest_tier.setSelectedItem(setup.Chest_tier);
+        CL.setValue(setup.CL);
+        Crafting_lvl.setValue(setup.Crafting_lvl);
+        Enemy.setSelectedItem(setup.Enemy);
+        GameVersion.setSelectedItem(setup.GameVersion);
+        Helmet_lvl.setValue(setup.Helmet_lvl);
+        Helmet_name.setSelectedItem(setup.Helmet_name);
+        Helmet_tier.setSelectedItem(setup.Helmet_tier);
+        MH_lvl.setValue(setup.MH_lvl);
+        MH_name.setSelectedItem(setup.MH_name);
+        MH_tier.setSelectedItem(setup.MH_tier);
+        ML.setValue(setup.ML);
+        Necklace_lvl.setValue(setup.Necklace_lvl);
+        Necklace_name.setSelectedItem(setup.Necklace_name);
+        Necklace_tier.setSelectedItem(setup.Necklace_tier);
+        OH_lvl.setValue(setup.OH_lvl);
+        OH_name.setSelectedItem(setup.OH_name);
+        OH_tier.setSelectedItem(setup.OH_tier);
+        Pants_lvl.setValue(setup.Pants_lvl);
+        Pants_name.setSelectedItem(setup.Pants_name);
+        Pants_tier.setSelectedItem(setup.Pants_tier);
+        PlayerClass.setSelectedItem(setup.PlayerClass);
+        Potion1.setSelectedItem(setup.Potion1);
+        Potion1_t.setValue(setup.Potion1_t);
+        Potion2.setSelectedItem(setup.Potion2);
+        Potion2_t.setValue(setup.Potion2_t);
+        Potion3.setSelectedItem(setup.Potion3);
+        Potion3_t.setValue(setup.Potion3_t);
+        Pskill1.setSelectedItem(setup.Pskill1);
+        Pskill1_lvl.setValue(setup.Pskill1_lvl);
+        Pskill2.setSelectedItem(setup.Pskill2);
+        Pskill2_lvl.setValue(setup.Pskill2_lvl);
+        Pskill3.setSelectedItem(setup.Pskill3);
+        Pskill3_lvl.setValue(setup.Pskill3_lvl);
+        Reroll.setValue(setup.Reroll);
+        simulation.essential_result = setup.Result_essential;
+        simulation.full_result = setup.Result_full;
+        SetSetup.setSelected(setup.SetSetup);
+        SetupInfo.setSelected(setup.SetupInfo);
+        Simulations.setValue(setup.Simulations);
+        Skill1.setSelectedItem(setup.Skill1);
+        Skill1_lvl.setValue(setup.Skill1_lvl);
+        Skill1_mod.setSelectedItem(setup.Skill1_mod);
+        Skill1_s.setValue(setup.Skill1_s);
+        Skill2.setSelectedItem(setup.Skill2);
+        Skill2_lvl.setValue(setup.Skill2_lvl);
+        Skill2_mod.setSelectedItem(setup.Skill2_mod);
+        Skill2_s.setValue(setup.Skill2_s);
+        Skill3.setSelectedItem(setup.Skill3);
+        Skill3_lvl.setValue(setup.Skill3_lvl);
+        Skill3_mod.setSelectedItem(setup.Skill3_mod);
+        Skill3_s.setValue(setup.Skill3_s);
+        Stats.setText(setup.Stats);
+        showResult();
+    }
+
+    private void showResult() {
+        if (SetupInfo.isSelected()) {
+            Result.setText(simulation.full_result);
+        } else {
+            Result.setText(simulation.essential_result);
+        }
     }
 }

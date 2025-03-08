@@ -423,31 +423,34 @@ public class Player extends Actor {
 
     public String getAllStats() {
         StringBuilder sb = new StringBuilder();
-        sb.append("HP = ").append((int) getHp()).append("\n");
-        sb.append("MP = ").append((int) getMp()).append("\n");
-        sb.append("ATK = ").append((int) getAtk()).append(" (").append((int) gear_atk).append(")\n");
-        sb.append("DEF = ").append((int) getDef()).append(" (").append((int) gear_def).append(")\n");
-        sb.append("INT = ").append((int) getIntel()).append(" (").append((int) gear_int).append(")\n");
-        sb.append("RES = ").append((int) getResist()).append(" (").append((int) gear_res).append(")\n");
-        sb.append("HIT = ").append((int) getHit()).append(" (").append((int) (getHit() - base_hit * hit_mult)).append(")\n");
-        sb.append("SPD = ").append((int) getSpeed()).append(" (").append((int) gear_speed).append(")\n\n");
+        sb.append("HP = ").append(Math.round(getHp())).append("\n");
+        sb.append("MP = ").append(Math.round(getMp())).append("\n");
+        sb.append("ATK = ").append(Math.round(getAtk())).append(" (").append(Math.round(gear_atk)).append(")\n");
+        sb.append("DEF = ").append(Math.round(getDef())).append(" (").append(Math.round(gear_def)).append(")\n");
+        sb.append("INT = ").append(Math.round(getIntel())).append(" (").append(Math.round(gear_int)).append(")\n");
+        sb.append("RES = ").append(Math.round(getResist())).append(" (").append(Math.round(gear_res)).append(")\n");
+        sb.append("HIT = ").append(Math.round(getHit())).append(" (").append(Math.round(getHit() - base_hit * hit_mult)).append(")\n");
+        sb.append("SPD = ").append(Math.round(getSpeed())).append(" (").append(Math.round(gear_speed)).append(")\n\n");
         if (getWater() != 0) {
-            sb.append("Water = ").append((int) getWater()).append(" (").append((int) gear_water).append(")\n");
+            sb.append("Water = ").append(Math.round(getWater())).append(" (").append(Math.round(gear_water)).append(
+                    ")\n");
         }
         if (getFire() != 0) {
-            sb.append("Fire = ").append((int) getFire()).append(" (").append((int) gear_fire).append(")\n");
+            sb.append("Fire = ").append(Math.round(getFire())).append(" (").append(Math.round(gear_fire)).append(")\n");
         }
         if (getWind() != 0) {
-            sb.append("Wind = ").append((int) getWind()).append(" (").append((int) gear_wind).append(")\n");
+            sb.append("Wind = ").append(Math.round(getWind())).append(" (").append(Math.round(gear_wind)).append(")\n");
         }
         if (getEarth() != 0) {
-            sb.append("Earth = ").append((int) getEarth()).append(" (").append((int) gear_earth).append(")\n");
+            sb.append("Earth = ").append(Math.round(getEarth())).append(" (").append(Math.round(gear_earth)).append(
+                    ")\n");
         }
         if (getLight() != 0) {
-            sb.append("Light = ").append((int) getLight()).append(" (").append((int) gear_light).append(")\n");
+            sb.append("Light = ").append(Math.round(getLight())).append(" (").append(Math.round(gear_light)).append(
+                    ")\n");
         }
         if (getDark() != 0) {
-            sb.append("Dark = ").append((int) getDark()).append(" (").append((int) gear_dark).append(")\n");
+            sb.append("Dark = ").append(Math.round(getDark())).append(" (").append(Math.round(gear_dark)).append(")\n");
         }
         sb.append("\n");
         if (getPhys_res() != 0) {
