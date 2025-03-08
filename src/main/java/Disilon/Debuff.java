@@ -1,3 +1,5 @@
+package Disilon;
+
 public class Debuff {
     public int duration;
     public double dmg;

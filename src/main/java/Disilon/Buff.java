@@ -1,3 +1,5 @@
+package Disilon;
+
 public class Buff {
     public int duration;
     public double effect;

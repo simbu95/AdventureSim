@@ -1,3 +1,5 @@
+package Disilon;
+
 public class Potion {
     String type;
     int tier;

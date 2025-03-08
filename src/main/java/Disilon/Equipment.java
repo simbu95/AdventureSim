@@ -1,3 +1,5 @@
+package Disilon;
+
 import java.util.HashMap;
 
 public class Equipment {

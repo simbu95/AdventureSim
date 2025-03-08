@@ -1,3 +1,5 @@
+package Disilon;
+
 import java.util.Objects;
 
 public class ActiveSkill {
@@ -198,12 +200,12 @@ public class ActiveSkill {
                 case "Burn":
                 case "Poison":
                     this.debuff_duration = switch (this.skillMod) {
-                        case basic -> base_debuff_duration * (1 + 0.02 * lvl);
-                        case pow -> base_debuff_duration * (1 + 0.01 * lvl);
-                        case powpow -> base_debuff_duration * (1 + 0.05 * lvl);
-                        case cheap -> base_debuff_duration * (1 - 0.01 * lvl);
-                        case enemy -> base_debuff_duration;
-                        case damage -> base_debuff_duration;
+                        case SkillMod.basic -> base_debuff_duration * (1 + 0.02 * lvl);
+                        case SkillMod.pow -> base_debuff_duration * (1 + 0.01 * lvl);
+                        case SkillMod.powpow -> base_debuff_duration * (1 + 0.05 * lvl);
+                        case SkillMod.cheap -> base_debuff_duration * (1 - 0.01 * lvl);
+                        case SkillMod.enemy -> base_debuff_duration;
+                        case SkillMod.damage -> base_debuff_duration;
                         default -> base_debuff_duration;
                     };
                     this.debuff_dmg = base_debuff_dmg * (1 + 0.02 * this.lvl);
@@ -211,17 +213,17 @@ public class ActiveSkill {
                 case "Mark":
                 case "Defense Break":
                     this.debuff_duration = switch (this.skillMod) {
-                        case basic -> base_debuff_duration * (1 + 0.02 * lvl);
-                        case pow -> base_debuff_duration * (1 + 0.01 * lvl);
-                        case powpow -> base_debuff_duration * (1 + 0.05 * lvl);
-                        case cheap -> base_debuff_duration * (1 - 0.01 * lvl);
+                        case SkillMod.basic -> base_debuff_duration * (1 + 0.02 * lvl);
+                        case SkillMod.pow -> base_debuff_duration * (1 + 0.01 * lvl);
+                        case SkillMod.powpow -> base_debuff_duration * (1 + 0.05 * lvl);
+                        case SkillMod.cheap -> base_debuff_duration * (1 - 0.01 * lvl);
                         default -> base_debuff_duration;
                     };
                     this.debuff_effect = switch (this.skillMod) {
-                        case basic -> base_debuff_dmg * (1 + 0.02 * lvl);
-                        case pow -> base_debuff_dmg * (1 + 0.01 * lvl);
-                        case powpow -> base_debuff_dmg * (1 + 0.05 * lvl);
-                        case cheap -> base_debuff_dmg * (1 - 0.01 * lvl);
+                        case SkillMod.basic -> base_debuff_dmg * (1 + 0.02 * lvl);
+                        case SkillMod.pow -> base_debuff_dmg * (1 + 0.01 * lvl);
+                        case SkillMod.powpow -> base_debuff_dmg * (1 + 0.05 * lvl);
+                        case SkillMod.cheap -> base_debuff_dmg * (1 - 0.01 * lvl);
                         default -> base_debuff_dmg;
                     };
                     this.debuff_dmg = 0;
@@ -235,10 +237,10 @@ public class ActiveSkill {
         }
         if (buff_name != null) {
             this.buff_bonus = switch (this.skillMod) {
-                case basic -> base_buff_bonus * (1 + 0.02 * lvl);
-                case pow -> base_buff_bonus * (1 + 0.01 * lvl);
-                case powpow -> base_buff_bonus * (1 + 0.05 * lvl);
-                case cheap -> base_buff_bonus * (1 - 0.01 * lvl);
+                case SkillMod.basic -> base_buff_bonus * (1 + 0.02 * lvl);
+                case SkillMod.pow -> base_buff_bonus * (1 + 0.01 * lvl);
+                case SkillMod.powpow -> base_buff_bonus * (1 + 0.05 * lvl);
+                case SkillMod.cheap -> base_buff_bonus * (1 - 0.01 * lvl);
                 default -> base_buff_bonus;
             };
             this.buff_duration = base_buff_duration;
@@ -312,63 +314,63 @@ public class ActiveSkill {
             dmg_mult *= attacker.isHidden() ? 1.3 : 1;
             dmg_mult *= this.dmg_mult;
             enemy_resist = switch (this.element) {
-                case dark -> {
+                case Element.dark -> {
                     atk = attacker.getDark();
                     yield defender.getDark_res();
                 }
-                case fire -> {
+                case Element.fire -> {
                     atk = attacker.getFire();
                     yield defender.getFire_res();
                 }
-                case light -> {
+                case Element.light -> {
                     atk = attacker.getLight();
                     yield defender.getLight_res();
                 }
-                case water -> {
+                case Element.water -> {
                     atk = attacker.getWater();
                     yield defender.getWater_res();
                 }
-                case wind -> {
+                case Element.wind -> {
                     atk = attacker.getWind();
                     yield defender.getWind_res();
                 }
-                case earth -> {
+                case Element.earth -> {
                     atk = attacker.getEarth();
                     yield defender.getEarth_res();
                 }
-                case phys -> {
+                case Element.phys -> {
                     yield defender.getPhys_res();
                 }
-                case magic -> {
+                case Element.magic -> {
                     yield defender.getMagic_res(); //TODO: find out how elements and resists work for ele blast
                 }
-                case physmagic -> {
+                case Element.physmagic -> {
                     yield defender.getPhys_res() / 2 + defender.getMagic_res() / 2 * Main.game_version < 1532 ? -1 : 1;
                 }
                 default -> 0;
             };
             def = switch (this.scaling) {
-                case atk -> {
+                case Scaling.atk -> {
                     atk += attacker.getAtk();
                     dmg_mult *= attacker.getSet_physdmg();
                     yield defender.getDef();
                 }
-                case atkint -> {
+                case Scaling.atkint -> {
                     atk += attacker.getAtk() / 2 + attacker.getIntel() / 2;
                     dmg_mult *= attacker.getSet_magicdmg();
                     yield defender.getDef() / 2 + defender.getResist() / 2;
                 }
-                case atkhit -> {
+                case Scaling.atkhit -> {
                     atk += attacker.getAtk() / 2 + attacker.getHit() / 2;
                     dmg_mult *= attacker.getSet_physdmg();
                     yield defender.getDef();
                 }
-                case intel -> {
+                case Scaling.intel -> {
                     atk += attacker.getIntel();
                     dmg_mult *= attacker.getSet_magicdmg();
                     yield defender.getResist();
                 }
-                case resint -> {
+                case Scaling.resint -> {
                     atk += attacker.getResist() / 2 + attacker.getIntel() / 2;
                     dmg_mult *= attacker.getSet_magicdmg();
                     yield defender.getResist();

@@ -1,3 +1,5 @@
+package Disilon;
+
 public class PassiveSkill {
     public int lvl;
     public String name;
