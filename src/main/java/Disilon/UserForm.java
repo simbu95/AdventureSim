@@ -1374,7 +1374,7 @@ public class UserForm extends JFrame {
         simulation.setupPotions(type1, tier1, threshold1, type2, tier2, threshold2, type3, tier3, threshold3);
     }
 
-    private void setupEquipment() {
+    private void setupEquipment() { // This function parses the equipment. Probably best place to do set bonuses.
         player.equipment.get("MH").setEquipment(MH_name.getSelectedItem().toString(),
                 MH_tier.getSelectedItem().toString(), Integer.parseInt(MH_lvl.getValue().toString()));
         player.equipment.get("OH").setEquipment(OH_name.getSelectedItem().toString(),
