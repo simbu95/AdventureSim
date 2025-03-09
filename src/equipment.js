@@ -63,9 +63,9 @@ class Equipment {
     multiplier(quality, upgrade, scaling_type) {
         switch (scaling_type) {
             case Equipment.SCALING.NORMAL:
-                return multiplier_from_tier(quality) * (1 + upgrade * 0.1);
+                return this.multiplier_from_tier(quality) * (1 + upgrade * 0.1);
             case Equipment.SCALING.RESISTANCE:
-                return (0.5 + multiplier_from_tier(quality) * 0.5) * (1 + upgrade * 0.025);
+                return (0.5 + this.multiplier_from_tier(quality) * 0.5) * (1 + upgrade * 0.025);
             default:
                 return 1;
         }
