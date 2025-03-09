@@ -84,7 +84,7 @@ function viewModel() {
     this.selectedWeapon = ko.observable();
 };
 
-var vm = viewModel();
+var vm = new viewModel();
 
 $.getJSON("data/Weapons.json", function (data) {
     WeaponData = data;
