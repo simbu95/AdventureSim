@@ -77,13 +77,17 @@ class Equipment {
     }
 }
 var WeaponData;
-var viewModel = {
+
+function viewModel() {
     // These are the initial options
-    weapons: ko.observableArray([])
+    this.weapons = ko.observableArray([]);
+    this.selectedWeapon = ko.observable();
 };
+
 $.getJSON("data/Weapons.json", function (data) {
     WeaponData = data;
     viewModel.weapons.push(Object.keys(WeaponData))
     console.log(new Equipment(WeaponData.SHORT_BOW, "poor", 10));
 });
 
+ko.applyBindings(new viewModel())
