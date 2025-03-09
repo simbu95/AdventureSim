@@ -73,7 +73,7 @@ class Equipment {
 
     multiplier_from_tier(quality) {
         // search for quality in dict. Return 1 if not found.
-        return Quality?.[quality.toLowerCase()] ?? 1;
+        return Equipment.Quality?.[quality.toLowerCase()] ?? 1;
     }
 }
 var WeaponData;
