@@ -84,10 +84,12 @@ function viewModel() {
     this.selectedWeapon = ko.observable();
 };
 
+var vm = viewModel();
+
 $.getJSON("data/Weapons.json", function (data) {
     WeaponData = data;
-    viewModel.weapons.push(Object.keys(WeaponData));
+    vm.weapons.push(Object.keys(WeaponData));
     console.log(new Equipment(WeaponData.SHORT_BOW, "poor", 10));
 });
 
-ko.applyBindings(new viewModel())
+ko.applyBindings(vm)
