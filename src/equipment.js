@@ -82,13 +82,16 @@ function viewModel() {
     // These are the initial options
     this.weapons = ko.observableArray([]);
     this.selectedWeapon = ko.observable();
+    //this.weaponText = ko.computed
 };
 
 var vm = new viewModel();
 
 $.getJSON("data/Weapons.json", function (data) {
     WeaponData = data;
-    vm.weapons.push(Object.keys(WeaponData));
+    Object.keys(WeaponData).forEach(weapon => {
+        vm.weapons.push(weapon);
+    });
     console.log(new Equipment(WeaponData.SHORT_BOW, "poor", 10));
 });
 
