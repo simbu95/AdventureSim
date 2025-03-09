@@ -16,7 +16,7 @@ class Equipment {
         godly: 5
     }
     constructor(equipData, quality, upgrade){
-        let multi = this.multiplier(quality, upgrade, SCALING.NORMAL);
+        let multi = this.multiplier(quality, upgrade, Equipment.SCALING.NORMAL);
 
         // If you don't understand this syntax, look up optional chaining and nullish coalescing
 
@@ -37,7 +37,7 @@ class Equipment {
         this.light = multi * (equipData?.LIGHT ?? 0);
 
         // Damage Mit
-        multi = this.multiplier(quality, upgrade, SCALING.RES);
+        multi = this.multiplier(quality, upgrade, Equipment.SCALING.RESISTANCE);
 
         this.phy_res = multi * (equipData?.PHY_RES ?? 0);
         this.mag_res = multi * (equipData?.MAG_RES ?? 0);
@@ -62,9 +62,9 @@ class Equipment {
 
     multiplier(quality, upgrade, scaling_type) {
         switch (scaling_type) {
-            case SCALING.NORMAL:
+            case Equipment.SCALING.NORMAL:
                 return multiplier_from_tier(quality) * (1 + upgrade * 0.1);
-            case SCALING.RESISTANCE:
+            case Equipment.SCALING.RESISTANCE:
                 return (0.5 + multiplier_from_tier(quality) * 0.5) * (1 + upgrade * 0.025);
             default:
                 return 1;
@@ -79,4 +79,5 @@ class Equipment {
 var WeaponData;
 $.getJSON("data/Weapons.json", function (data) {
     WeaponData = data;
+    console.log(new Equipment(WeaponData.SHORT_BOW, "poor", 10);
 });
