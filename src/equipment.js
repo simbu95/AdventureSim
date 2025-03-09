@@ -79,5 +79,5 @@ class Equipment {
 var WeaponData;
 $.getJSON("data/Weapons.json", function (data) {
     WeaponData = data;
-    console.log(new Equipment(WeaponData.SHORT_BOW, "poor", 10);
+    console.log(new Equipment(WeaponData.SHORT_BOW, "poor", 10));
 });
