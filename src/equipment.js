@@ -86,82 +86,83 @@ Object.keys(Equipment.Quality).forEach(quality => {
 });
 
 function viewModel() {
-    this.qualitySelection = ko.observableArray(qualityList);
+    var self = this;
+    self.qualitySelection = ko.observableArray(qualityList);
     // These are the initial options
-    this.mainhandWeapons = ko.observableArray([]);
-    this.selectedMainWeapon = ko.observable();
-    //this.mainQuality = ko.observableArray(qualityList);
-    this.mainSelectedQuality = ko.observable();
-    this.mainUpgrade = ko.observable(0);
+    self.mainhandWeapons = ko.observableArray([]);
+    self.selectedMainWeapon = ko.observable();
+    //self.mainQuality = ko.observableArray(qualityList);
+    self.mainSelectedQuality = ko.observable();
+    self.mainUpgrade = ko.observable(0);
    
-    this.offhandWeapons = ko.observableArray([]);
-    this.selectedOffWeapon = ko.observable();
-    //this.offQuality = ko.observableArray(qualityList);
-    this.offSelectedQuality = ko.observable();
-    this.offUpgrade = ko.observable(0);
+    self.offhandWeapons = ko.observableArray([]);
+    self.selectedOffWeapon = ko.observable();
+    //self.offQuality = ko.observableArray(qualityList);
+    self.offSelectedQuality = ko.observable();
+    self.offUpgrade = ko.observable(0);
    
     
-    this.helmets = ko.observableArray([]);
-    this.selectedHelmet = ko.observable();
-    //this.helmetQuality = ko.observableArray(qualityList);
-    this.helmetSelectedQuality = ko.observable();
-    this.helmetUpgrade = ko.observable(0);
+    self.helmets = ko.observableArray([]);
+    self.selectedHelmet = ko.observable();
+    //self.helmetQuality = ko.observableArray(qualityList);
+    self.helmetSelectedQuality = ko.observable();
+    self.helmetUpgrade = ko.observable(0);
    
-    this.boots = ko.observableArray([]);
-    this.selectedBoot = ko.observable();
-    //this.bootQuality = ko.observableArray(qualityList);
-    this.bootSelectedQuality = ko.observable();
-    this.bootUpgrade = ko.observable(0);
+    self.boots = ko.observableArray([]);
+    self.selectedBoot = ko.observable();
+    //self.bootQuality = ko.observableArray(qualityList);
+    self.bootSelectedQuality = ko.observable();
+    self.bootUpgrade = ko.observable(0);
    
-    this.chests = ko.observableArray([]);
-    this.selectedChest = ko.observable();
-    //this.chestQuality = ko.observableArray(qualityList);
-    this.chestSelectedQuality = ko.observable();
-    this.chestUpgrade = ko.observable(0);
+    self.chests = ko.observableArray([]);
+    self.selectedChest = ko.observable();
+    //self.chestQuality = ko.observableArray(qualityList);
+    self.chestSelectedQuality = ko.observable();
+    self.chestUpgrade = ko.observable(0);
    
-    this.hands = ko.observableArray([]);
-    this.selectedHand = ko.observable();
-    //this.handQuality = ko.observableArray(qualityList);
-    this.handSelectedQuality = ko.observable();
-    this.handUpgrade = ko.observable(0);
+    self.hands = ko.observableArray([]);
+    self.selectedHand = ko.observable();
+    //self.handQuality = ko.observableArray(qualityList);
+    self.handSelectedQuality = ko.observable();
+    self.handUpgrade = ko.observable(0);
    
-    this.legs = ko.observableArray([]);
-    this.selectedLeg = ko.observable();
-    //this.legQuality = ko.observableArray(qualityList);
-    this.legSelectedQuality = ko.observable();
-    this.legUpgrade = ko.observable(0);
+    self.legs = ko.observableArray([]);
+    self.selectedLeg = ko.observable();
+    //self.legQuality = ko.observableArray(qualityList);
+    self.legSelectedQuality = ko.observable();
+    self.legUpgrade = ko.observable(0);
    
-    this.necklaces = ko.observableArray([]);
-    this.selectedNecklace = ko.observable();
-    //this.necklaceQuality = ko.observableArray(qualityList);
-    this.necklaceSelectedQuality = ko.observable();
-    this.necklaceUpgrade = ko.observable(0);
+    self.necklaces = ko.observableArray([]);
+    self.selectedNecklace = ko.observable();
+    //self.necklaceQuality = ko.observableArray(qualityList);
+    self.necklaceSelectedQuality = ko.observable();
+    self.necklaceUpgrade = ko.observable(0);
    
-    this.rings = ko.observableArray([]);
+    self.rings = ko.observableArray([]);
    
-    this.selectedRing1 = ko.observable();
-    //this.ring1Quality = ko.observableArray(qualityList);
-    this.ring1SelectedQuality = ko.observable();
-    this.ring1Upgrade = ko.observable(0);
+    self.selectedRing1 = ko.observable();
+    //self.ring1Quality = ko.observableArray(qualityList);
+    self.ring1SelectedQuality = ko.observable();
+    self.ring1Upgrade = ko.observable(0);
    
-    this.selectedRing2 = ko.observable();
-    //this.ring2Quality = ko.observableArray(qualityList);
-    this.ring2SelectedQuality = ko.observable();
-    this.ring2Upgrade = ko.observable(0);
+    self.selectedRing2 = ko.observable();
+    //self.ring2Quality = ko.observableArray(qualityList);
+    self.ring2SelectedQuality = ko.observable();
+    self.ring2Upgrade = ko.observable(0);
    
-    this.equipmentText = ko.computed(function() {
+    self.equipmentText = ko.computed(function() {
         let Armors = []
-        if(ArmorData?.HEADGEAR?.[this.selectedHelmet()]) { // Make sure something has been inited.
-            Armors.push(ArmorData.HEADGEAR[this.selectedHelmet()]);
-            Armors.push(ArmorData.BOOTS[this.selectedBoot()]);
-            Armors.push(ArmorData.CHEST[this.selectedChest()]);
-            Armors.push(ArmorData.BRACERS[this.selectedHand()]);
-            Armors.push(ArmorData.PANTS[this.selectedLeg()]);
+        if(self.selectedHelmet()) { // Make sure something has been inited.
+            Armors.push(new Equipment(ArmorData.HEADGEAR[self.selectedHelmet()], self.helmetSelectedQuality(), self.helmetUpgrade()));
+            Armors.push(new Equipment(ArmorData.BOOTS[self.selectedBoot()], self.bootSelectedQuality(), self.bootUpgrade()));
+            Armors.push(new Equipment(ArmorData.CHEST[self.selectedChest()], self.chestSelectedQuality(), self.chestUpgrade()));
+            Armors.push(new Equipment(ArmorData.BRACERS[self.selectedHand()], self.handSelectedQuality(), self.handUpgrade()));
+            Armors.push(new Equipment(ArmorData.PANTS[self.selectedLeg()], self.legSelectedQuality(), self.legUpgrade()));
         }
        
         let ATK = Armors.reduce((n, {ATK}) => n + ATK, 0);
         return ATK
-    }, this);
+    });
 };
 
 var vm = new viewModel();
