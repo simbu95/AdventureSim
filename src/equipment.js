@@ -160,7 +160,7 @@ function viewModel() {
             Armors.push(new Equipment(ArmorData.PANTS[self.selectedLeg()], self.legSelectedQuality(), self.legUpgrade()));
         }
        
-        let ATK = Armors.reduce((n, {ATK}) => n + ATK, 0);
+        let ATK = Armors.reduce((n, {atk}) => n + atk, 0);
         return ATK
     });
 };
