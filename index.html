@@ -1,19 +1,105 @@
-
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
-
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"> 
 
 <body>Hello
     <div>
-        <select data-bind="options: weapons,
-                           value: selectedWeapon"></select>
+        <select data-bind="options: mainhandWeapons,
+                           value: selectedMainWeapon">
+        </select>
+        <select data-bind="options: qualitySelection,
+                           value: selectedMainWeapon">
+        </select>
+        <input type="number" data-bind="value: mainUpgrade">
     </div>
-    <
+    <div>
+        <select data-bind="options: offhandWeapons,
+                           value: selectedOffWeapon">
+        </select>
+        <select data-bind="options: qualitySelection,
+                           value: offSelectedQuality">
+        </select>
+        <input type="number" data-bind="value: offUpgrade">
+    </div>
+    <div>
+        <select data-bind="options: helmets,
+                           value: selectedHelmet">
+        </select>
+        <select data-bind="options: qualitySelection,
+                           value: helmetSelectedQuality">
+        </select>
+        <input type="number" data-bind="value: helmetUpgrade">
+    </div>
+    <div>
+        <select data-bind="options: boots,
+                           value: selectedBoot">
+        </select>
+        <select data-bind="options: qualitySelection,
+                           value: bootSelectedQuality">
+        </select>
+        <input type="number" data-bind="value: bootUpgrade">
+    </div>
+    <div>
+        <select data-bind="options: chests,
+                           value: selectedChest">
+        </select>
+        <select data-bind="options: qualitySelection,
+                           value: chestSelectedQuality">
+        </select>
+        <input type="number" data-bind="value: chestUpgrade">
+    </div>
+    <div>
+        <select data-bind="options: hands,
+                           value: selectedHand">
+        </select>
+        <select data-bind="options: qualitySelection,
+                           value: handSelectedQuality">
+        </select>
+        <input type="number" data-bind="value: handUpgrade">
+    </div>
+    <div>
+        <select data-bind="options: legs,
+                           value: selectedLeg">
+        </select>
+        <select data-bind="options: qualitySelection,
+                           value: legSelectedQuality">
+        </select>
+        <input type="number" data-bind="value: legUpgrade">
+    </div>
+    <div>
+        <select data-bind="options: necklaces,
+                           value: selectedNecklace">
+        </select>
+        <select data-bind="options: qualitySelection,
+                           value: necklaceSelectedQuality">
+        </select>
+        <input type="number" data-bind="value: necklaceUpgrade">
+    </div>
+    <div>
+        <select data-bind="options: rings,
+                           value: selectedRing1">
+        </select>
+        <select data-bind="options: qualitySelection,
+                           value: ring1SelectedQuality">
+        </select>
+        <input type="number" data-bind="value: ring1Upgrade">
+    </div>
+    <div>
+        <select data-bind="options: rings,
+                           value: selectedRing2">
+        </select>
+        <select data-bind="options: qualitySelection,
+                           value: ring2SelectedQuality">
+        </select>
+        <input type="number" data-bind="value: ring2Upgrade">
+    </div>
+    <div>
+        <span data-bind="text: equipmentText"></span>
+    </div>
 </body>
-
-
+ 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js""></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.5.1/knockout-latest.js"></script>
+ 
 
 <script src="src/equipment.js"></script>

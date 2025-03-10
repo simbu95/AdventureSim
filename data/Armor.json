@@ -1,85 +1,213 @@
 {
     "HEADGEAR":{
-        "CLOTH_HOOD": {
+        "Cloth Hood": {
             "RES": 6,
-            "SET": "MAG_DAM"
-        }, "BLAZING_HOOD": {
+            "SET": "MagDam"
+        }, "Blazing Hood": {
             "DEF": 4,
             "INT": 2,
             "RES": 8,
             "WATER_RES": -2,
             "FIRE_RES": 4,
-            "SET": "MAG_DAM"
-        }, "LEATHER_HELMET": {
+            "SET": "MagDam"
+        }, "Leather Helmet": {
             "DEF": 6,
             "RES": 4,
-            "SET": "HIT"
-        }, "WINDY_HAT": {
+            "SET": "Hit"
+        }, "Windy Hat": {
             "DEF": 6,
             "RES": 6,
             "HIT": 2,
             "FIRE_RES": -2,
             "WIND_RES": 4,
-            "SET": "HIT"
-        }, "DARK_LEATHER_HOOD": {
+            "SET": "Hit"
+        }, "Dark Leather Hood": {
             "ATK": 2,
             "DEF": 6,
             "RES": 6,
             "LIGHT_RES": -2,
             "DARK_RES": 4,
-            "SET": "PHY_DAM"
-        }, "METAL_HELMET": {
+            "SET": "PhyDam"
+        }, "Metal Helmet": {
             "DEF": 7,
             "RES": 4,
             "HIT": -4,
             "SPD": -2,
             "PHY_RES": 1,
-            "SET": "DAM_MIT"
-        }, "IRON_HELMET": {
+            "SET": "DamMit"
+        }, "Iron Helmet": {
             "DEF": 11,
             "RES": 6,
             "HIT": -6,
             "SPD": -2,
             "PHY_RES": 1.5,
-            "SET": "DAM_MIT2"
+            "SET": "DamMit2"
         }
     }, "BOOTS":{
-        "CLOTH_BOOTS": {
+        "Cloth Boots": {
             "SPD": 6,
-            "SET": "MAG_DAM"
-        }, "BLAZING_BOOTS": {
+            "SET": "MagDam"
+        }, "Blazing Boots": {
             "INT": 2,
             "SPD": 14,
             "FIRE": 10,
             "FIRE_RES": 2,
-            "SET": "MAG_DAM"
-        }, "LEATHER_BOOTS": {
+            "SET": "MagDam"
+        }, "Leather Boots": {
             "SPD": 10,
-            "SET": "HIT"
-        }, "WINDY_BOOTS": {
+            "SET": "Hit"
+        }, "Windy Boots": {
             "DEF": 2,
             "HIT": 2,
             "SPD": 12,
             "WIND": 10,
             "WIND_RES": 2,
-            "SET": "HIT"
-        }, "DARK_LEATHER_BOOTS": {
+            "SET": "Hit"
+        }, "Dark Leather Boots": {
             "ATK": 2,
             "DEF": 4,
             "SPD": 10,
             "DARK": 10,
             "DARK_RES": 2,
-            "SET": "PHY_DAM"
-        }, "METAL_BOOTS": {
+            "SET": "PhyDam"
+        }, "Metal Boots": {
             "DEF": 2,
             "RES": 2,
             "SPD": 2,
-            "SET": "DAM_MIT"
-        }, "IRON_BOOTS": {
+            "SET": "DamMit"
+        }, "Iron Boots": {
             "DEF": 4,
             "RES": 4,
             "SPD": 2,
-            "SET": "DAM_MIT2"
+            "SET": "DamMit2"
+        }
+    }, "BRACERS":{
+		"Cloth Bracers": {
+			"HIT": 6,
+			"SET": "MagDam"
+		}, "Blazing Bracers": {
+            "INT": 6,
+            "HIT": 6,
+            "FIRE": 60,
+            "WATER_RES": -4,
+            "SET": "MagDam"
+        }, "Leather Bracers": {
+            "HIT": 10,
+            "SET": "Hit"
+        }, "Windy Bracers": {
+            "HIT": 12,
+            "WIND": 60,
+            "FIRE_RES": -4,
+            "SET": "Hit"
+        }, "Dark Leather Bracers": {
+            "ATK": 6,
+            "HIT": 6,
+            "DARK": 60,
+            "LIGHT_RES": -4,
+            "SET": "PhyDam"
+        }, "Metal Bracers": {
+            "DEF": 2,
+            "RES": 2,
+            "HIT": 4,
+			"SPD": -2,
+			"PHY_RES": 1,
+            "SET": "DamMit"
+        }, "Iron Bracers": {
+            "DEF": 5,
+            "RES": 4,
+            "HIT": 6,
+			"SPD": -4,
+			"PHY_RES": 1.5,
+            "SET": "DamMit2"
+        }
+	}, "PANTS":{
+        "Cloth Pants": {
+            "DEF": 8,
+            "SET": "MagDam"
+        }, "Blazing Pants": {
+            "DEF": 6,
+            "INT": 2,
+            "RES": 10,
+			"FIRE": 20,
+            "FIRE_RES": 2,
+            "SET": "MagDam"
+        }, "Leather Pants": {
+            "DEF": 10,
+            "SET": "Hit"
+        }, "Windy Pants": {
+            "DEF": 10,
+            "RES": 6,
+            "HIT": 2,
+			"WIND": 20,
+            "WIND_RES": 2,
+            "SET": "Hit"
+        }, "Dark Leather Pants": {
+            "ATK": 2,
+            "DEF": 10,
+            "RES": 6,
+			"DARK": 20,
+            "DARK_RES": 2,
+            "SET": "PhyDam"
+        }, "Metal Pants": {
+            "DEF": 5,
+            "RES": 2,
+            "SPD": -2,
+            "PHY_RES": 1,
+            "SET": "DamMit"
+        }, "Iron Pants": {
+            "DEF": 9,
+            "RES": 6,
+            "SPD": -6,
+            "PHY_RES": 1.5,
+            "SET": "DamMit2"
+        }
+    }, "CHEST":{
+        "Cloth Mantle": {
+            "DEF": 4,
+			"RES": 6,
+            "SET": "MagDam"
+        }, "Blazing Mantle": {
+            "DEF": 8,
+            "INT": 4,
+            "RES": 14,
+			"FIRE": 30,
+            "WATER_RES": -6,
+            "FIRE_RES": 6,
+            "SET": "MagDam"
+        }, "Leather Shirt": {
+            "DEF": 12,
+            "RES": 6,
+            "SET": "Hit"
+        }, "Windy Chest Piece": {
+            "DEF": 14,
+            "RES": 8,
+            "HIT": 4,
+			"WIND": 30,
+            "FIRE_RES": -6,
+            "WIND_RES": 6,
+            "SET": "Hit"
+        }, "Dark Leather Mantle": {
+            "ATK": 4,
+            "DEF": 14,
+            "RES": 8,
+			"DARK": 30,
+            "LIGHT_RES": -6,
+            "DARK_RES": 6,
+            "SET": "PhyDam"
+        }, "Metal Chest": {
+            "DEF": 12,
+            "RES": 4,
+            "HIT": -4,
+            "SPD": -4,
+            "PHY_RES": 3,
+            "SET": "DamMit"
+        }, "Iron Chest": {
+            "DEF": 20,
+            "RES": 8,
+            "HIT": -6,
+            "SPD": -6,
+            "PHY_RES": 5,
+            "SET": "DamMit2"
         }
     }
 }

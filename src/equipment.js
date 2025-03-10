@@ -47,7 +47,7 @@ class Equipment {
         this.earth_res = multi * (equipData?.EARTH_RES ?? 0);
         this.light_res = multi * (equipData?.DARK_RES ?? 0);
         this.dark_res = multi * (equipData?.LIGHT_RES ?? 0);
-        
+
         // Special
         multi = 1; // Need to figure out scaling
         this.burn = multi * (equipData?.BURN ?? 0);
@@ -77,22 +77,136 @@ class Equipment {
     }
 }
 var WeaponData;
+var ArmorData;
+var AccessoryData;
+
+var qualityList = []
+Object.keys(Equipment.Quality).forEach(quality => {
+    qualityList.push(quality);
+});
 
 function viewModel() {
+    this.qualitySelection = ko.observableArray(qualityList);
     // These are the initial options
-    this.weapons = ko.observableArray([]);
-    this.selectedWeapon = ko.observable();
-    //this.weaponText = ko.computed
+    this.mainhandWeapons = ko.observableArray([]);
+    this.selectedMainWeapon = ko.observable();
+    //this.mainQuality = ko.observableArray(qualityList);
+    this.mainSelectedQuality = ko.observable();
+    this.mainUpgrade = ko.observable(0);
+   
+    this.offhandWeapons = ko.observableArray([]);
+    this.selectedOffWeapon = ko.observable();
+    //this.offQuality = ko.observableArray(qualityList);
+    this.offSelectedQuality = ko.observable();
+    this.offUpgrade = ko.observable(0);
+   
+    
+    this.helmets = ko.observableArray([]);
+    this.selectedHelmet = ko.observable();
+    //this.helmetQuality = ko.observableArray(qualityList);
+    this.helmetSelectedQuality = ko.observable();
+    this.helmetUpgrade = ko.observable(0);
+   
+    this.boots = ko.observableArray([]);
+    this.selectedBoot = ko.observable();
+    //this.bootQuality = ko.observableArray(qualityList);
+    this.bootSelectedQuality = ko.observable();
+    this.bootUpgrade = ko.observable(0);
+   
+    this.chests = ko.observableArray([]);
+    this.selectedChest = ko.observable();
+    //this.chestQuality = ko.observableArray(qualityList);
+    this.chestSelectedQuality = ko.observable();
+    this.chestUpgrade = ko.observable(0);
+   
+    this.hands = ko.observableArray([]);
+    this.selectedHand = ko.observable();
+    //this.handQuality = ko.observableArray(qualityList);
+    this.handSelectedQuality = ko.observable();
+    this.handUpgrade = ko.observable(0);
+   
+    this.legs = ko.observableArray([]);
+    this.selectedLeg = ko.observable();
+    //this.legQuality = ko.observableArray(qualityList);
+    this.legSelectedQuality = ko.observable();
+    this.legUpgrade = ko.observable(0);
+   
+    this.necklaces = ko.observableArray([]);
+    this.selectedNecklace = ko.observable();
+    //this.necklaceQuality = ko.observableArray(qualityList);
+    this.necklaceSelectedQuality = ko.observable();
+    this.necklaceUpgrade = ko.observable(0);
+   
+    this.rings = ko.observableArray([]);
+   
+    this.selectedRing1 = ko.observable();
+    //this.ring1Quality = ko.observableArray(qualityList);
+    this.ring1SelectedQuality = ko.observable();
+    this.ring1Upgrade = ko.observable(0);
+   
+    this.selectedRing2 = ko.observable();
+    //this.ring2Quality = ko.observableArray(qualityList);
+    this.ring2SelectedQuality = ko.observable();
+    this.ring2Upgrade = ko.observable(0);
+   
+    this.equipmentText = ko.computed(function() {
+        let Armors = []
+        Armors.push(ArmorData?.[selectedHelmet()]);
+        Armors.push(ArmorData?.[selectedBoot()]);
+        Armors.push(ArmorData?.[selectedChest()]);
+        Armors.push(ArmorData?.[selectedHand()]);
+        Armors.push(ArmorData?.[selectedHelmet()]);
+       
+        let ATK = Armors.reduce((n, {ATK}) => n + ATK, 0);
+        return ATK
+    }, this);
 };
 
 var vm = new viewModel();
 
 $.getJSON("data/Weapons.json", function (data) {
     WeaponData = data;
-    Object.keys(WeaponData).forEach(weapon => {
-        vm.weapons.push(weapon);
+    Object.keys(WeaponData["2H"]).forEach(weapon => {
+        vm.mainhandWeapons.push(weapon);
+        vm.offhandWeapons.push(weapon);
     });
-    console.log(new Equipment(WeaponData.SHORT_BOW, "poor", 10));
+    Object.keys(WeaponData.MH).forEach(weapon => {
+        vm.mainhandWeapons.push(weapon);
+        vm.offhandWeapons.push(weapon);
+    });
+    Object.keys(WeaponData.OH).forEach(weapon => {
+        vm.mainhandWeapons.push(weapon);
+        vm.offhandWeapons.push(weapon);
+    });
+});
+
+$.getJSON("data/Armor.json", function (data) {
+    ArmorData = data;
+    Object.keys(AccessoryData.HEADGEAR).forEach(head => {
+        vm.helmets.push(head);
+    });
+    Object.keys(AccessoryData.BOOTS).forEach(boot => {
+        vm.boots.push(boot);
+    });
+    Object.keys(AccessoryData.BRACERS).forEach(hand => {
+        vm.hands.push(hand);
+    });
+    Object.keys(AccessoryData.PANTS).forEach(leg => {
+        vm.legs.push(leg);
+    });
+    Object.keys(AccessoryData.CHEST).forEach(chest => {
+        vm.chests.push(chest);
+    });
+});
+
+$.getJSON("data/Accessories.json", function (data) {
+    AccessoryData = data;
+    Object.keys(AccessoryData.NECK).forEach(neck => {
+        vm.necklaces.push(neck);
+    });
+    Object.keys(AccessoryData.RING).forEach(ring => {
+        vm.rings.push(ring);
+    });
 });
 
 ko.applyBindings(vm)
