@@ -157,8 +157,8 @@ function viewModel() {
         Weapons.push(new Equipment(WeaponData["2H"][self.selectedMainWeapon()], self.mainSelectedQuality(), self.mainUpgrade()));
 
         Accessories.push(new Equipment(AccessoryData.NECK[self.selectedNecklace()], self.necklaceSelectedQuality(), self.necklaceUpgrade()));
-        Accessories.push(new Equipment(AccessoryData.Ring[self.selectedRing1()], self.ring1SelectedQuality(), self.ring1Upgrade()));
-        Accessories.push(new Equipment(AccessoryData.Ring[self.selectedRing2()], self.ring2SelectedQuality(), self.ring2Upgrade()));
+        Accessories.push(new Equipment(AccessoryData.RING[self.selectedRing1()], self.ring1SelectedQuality(), self.ring1Upgrade()));
+        Accessories.push(new Equipment(AccessoryData.RING[self.selectedRing2()], self.ring2SelectedQuality(), self.ring2Upgrade()));
 
         All.concat(Armors, Weapons, Accessories)
 
