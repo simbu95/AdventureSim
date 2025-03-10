@@ -151,7 +151,7 @@ function viewModel() {
    
     this.equipmentText = ko.computed(function() {
         let Armors = []
-        if(ArmorData.HEADGEAR?.[selectedHelmet()]) { // Make sure something has been inited.
+        if(ArmorData?.HEADGEAR?.[selectedHelmet()]) { // Make sure something has been inited.
             Armors.push(ArmorData.HEADGEAR[selectedHelmet()]);
             Armors.push(ArmorData.BOOTS[selectedBoot()]);
             Armors.push(ArmorData.CHEST[selectedChest()]);
