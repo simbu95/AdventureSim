@@ -184,19 +184,19 @@ $.getJSON("data/Weapons.json", function (data) {
 
 $.getJSON("data/Armor.json", function (data) {
     ArmorData = data;
-    Object.keys(AccessoryData.HEADGEAR).forEach(head => {
+    Object.keys(ArmorData.HEADGEAR).forEach(head => {
         vm.helmets.push(head);
     });
-    Object.keys(AccessoryData.BOOTS).forEach(boot => {
+    Object.keys(ArmorData.BOOTS).forEach(boot => {
         vm.boots.push(boot);
     });
-    Object.keys(AccessoryData.BRACERS).forEach(hand => {
+    Object.keys(ArmorData.BRACERS).forEach(hand => {
         vm.hands.push(hand);
     });
-    Object.keys(AccessoryData.PANTS).forEach(leg => {
+    Object.keys(ArmorData.PANTS).forEach(leg => {
         vm.legs.push(leg);
     });
-    Object.keys(AccessoryData.CHEST).forEach(chest => {
+    Object.keys(ArmorData.CHEST).forEach(chest => {
         vm.chests.push(chest);
     });
 });
