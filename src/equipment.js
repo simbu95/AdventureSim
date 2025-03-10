@@ -151,11 +151,13 @@ function viewModel() {
    
     this.equipmentText = ko.computed(function() {
         let Armors = []
-        Armors.push(ArmorData?.[selectedHelmet()]);
-        Armors.push(ArmorData?.[selectedBoot()]);
-        Armors.push(ArmorData?.[selectedChest()]);
-        Armors.push(ArmorData?.[selectedHand()]);
-        Armors.push(ArmorData?.[selectedHelmet()]);
+        if(ArmorData.HEADGEAR?.[selectedHelmet()]) { // Make sure something has been inited.
+            Armors.push(ArmorData.HEADGEAR[selectedHelmet()]);
+            Armors.push(ArmorData.BOOTS[selectedBoot()]);
+            Armors.push(ArmorData.CHEST[selectedChest()]);
+            Armors.push(ArmorData.BRACERS[selectedHand()]);
+            Armors.push(ArmorData.PANTS[selectedLeg()]);
+        }
        
         let ATK = Armors.reduce((n, {ATK}) => n + ATK, 0);
         return ATK
