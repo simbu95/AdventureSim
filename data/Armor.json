@@ -1,6 +1,7 @@
 {
     "HEADGEAR":{
-        "Cloth Hood": {
+        "None": {
+		}, "Cloth Hood": {
             "RES": 6,
             "SET": "MagDam"
         }, "Blazing Hood": {
@@ -44,7 +45,8 @@
             "SET": "DamMit2"
         }
     }, "BOOTS":{
-        "Cloth Boots": {
+        "None": {
+		}, "Cloth Boots": {
             "SPD": 6,
             "SET": "MagDam"
         }, "Blazing Boots": {
@@ -82,7 +84,8 @@
             "SET": "DamMit2"
         }
     }, "BRACERS":{
-		"Cloth Bracers": {
+		"None": {
+		}, "Cloth Bracers": {
 			"HIT": 6,
 			"SET": "MagDam"
 		}, "Blazing Bracers": {
@@ -121,7 +124,8 @@
             "SET": "DamMit2"
         }
 	}, "PANTS":{
-        "Cloth Pants": {
+        "None": {
+		}, "Cloth Pants": {
             "DEF": 8,
             "SET": "MagDam"
         }, "Blazing Pants": {
@@ -162,7 +166,8 @@
             "SET": "DamMit2"
         }
     }, "CHEST":{
-        "Cloth Mantle": {
+        "None": {
+		}, "Cloth Mantle": {
             "DEF": 4,
 			"RES": 6,
             "SET": "MagDam"

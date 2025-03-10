@@ -1,6 +1,7 @@
 {
 	"2H":{    
-		"Short Bow": {
+		"None": {
+		}, "Short Bow": {
 			"ATK": 8,
 			"HIT": 8
 		},"Beech Bow": {

@@ -1,6 +1,7 @@
 {
 	"NECK": {
-		"Metal Necklace": {
+		"None": {
+		}, "Metal Necklace": {
 			"INT": 3,
 			"RES": 3
 		}, "Bronze Necklace": {
@@ -9,7 +10,8 @@
 			"SET": "DamMit"
 		}
 	}, "RING": {
-		"Metal Ring": {
+		"None": {
+		}, "Metal Ring": {
 			"ATK": 3,
 			"DEF": 3
 		}, "Bronze Ring": {
