@@ -141,7 +141,7 @@ function viewModel() {
     self.ring2Upgrade = ko.observable(0);
    
     self.equipmentText = ko.computed(function() {
-        if (!self.selectedHelmet())// Make sure something has been inited.
+        if (!self.selectedChest() || !self.selectedOffWeapon() || !self.selectedRing2())// Make sure something has been inited.
             return "Loading"
         let Armors = []
         let Weapons = []
