@@ -146,7 +146,6 @@ function viewModel() {
         let Armors = []
         let Weapons = []
         let Accessories = []
-        let All = []
 
         Armors.push(new Equipment(ArmorData.HEADGEAR[self.selectedHelmet()], self.helmetSelectedQuality(), self.helmetUpgrade()));
         Armors.push(new Equipment(ArmorData.BOOTS[self.selectedBoot()], self.bootSelectedQuality(), self.bootUpgrade()));
@@ -160,7 +159,7 @@ function viewModel() {
         Accessories.push(new Equipment(AccessoryData.RING[self.selectedRing1()], self.ring1SelectedQuality(), self.ring1Upgrade()));
         Accessories.push(new Equipment(AccessoryData.RING[self.selectedRing2()], self.ring2SelectedQuality(), self.ring2Upgrade()));
 
-        All.concat(Armors, Weapons, Accessories)
+        let All = Armors.concat(Weapons, Accessories)
 
         let ATK = All.reduce((n, {atk}) => n + atk, 0);
         let DEF =  All.reduce((n, {def}) => n + def, 0);
